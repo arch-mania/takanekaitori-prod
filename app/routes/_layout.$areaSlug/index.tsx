@@ -371,7 +371,7 @@ export default function Index() {
         </section>
         {featuredProperties?.length > 0 && (
           <section className="space-y-8 lg:space-y-6">
-            <Heading level={2}>注目物件！</Heading>
+            <Heading level={2}>注目物件</Heading>
             <div className="flex flex-wrap gap-3 gap-y-6 lg:gap-x-[20px]">
               {featuredProperties.map((property) => (
                 <PropertyCard
