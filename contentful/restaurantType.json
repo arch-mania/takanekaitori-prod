@@ -1,0 +1,88 @@
+{
+  "entries": [
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "c5ll46t87s6s"
+          }
+        },
+        "id": "aB3cD4eF5gH6iJ7k",
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "restaurantType"
+          }
+        }
+      },
+      "fields": {
+        "name": {
+          "ja": "軽飲食"
+        },
+        "order": {
+          "ja": 100
+        }
+      }
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "c5ll46t87s6s"
+          }
+        },
+        "id": "bK8lM9nO0pQ1rS2t",
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "restaurantType"
+          }
+        }
+      },
+      "fields": {
+        "name": {
+          "ja": "重飲食"
+        },
+        "order": {
+          "ja": 200
+        }
+      }
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "c5ll46t87s6s"
+          }
+        },
+        "id": "cT3uV4wX5yZ6aB7c",
+        "type": "Entry",
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "restaurantType"
+          }
+        }
+      },
+      "fields": {
+        "name": {
+          "ja": "パブ・スナック"
+        },
+        "order": {
+          "ja": 300
+        }
+      }
+    }
+  ]
+}

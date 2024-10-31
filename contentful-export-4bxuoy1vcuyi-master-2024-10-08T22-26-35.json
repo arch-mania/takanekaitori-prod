@@ -1,0 +1,1049 @@
+{
+  "contentTypes": [
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "blog",
+        "type": "ContentType",
+        "createdAt": "2023-04-19T02:38:16.615Z",
+        "updatedAt": "2023-04-19T02:38:17.243Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 1,
+        "publishedAt": "2023-04-19T02:38:17.243Z",
+        "firstPublishedAt": "2023-04-19T02:38:17.243Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 2,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/content_types/blog"
+      },
+      "displayField": "title",
+      "name": "Blog",
+      "description": "",
+      "fields": [
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "image",
+          "name": "Image",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset"
+        },
+        {
+          "id": "description",
+          "name": "description",
+          "type": "RichText",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "enabledMarks": [
+                "bold",
+                "italic",
+                "underline",
+                "code",
+                "superscript",
+                "subscript"
+              ],
+              "message": "Only bold, italic, underline, code, superscript, and subscript marks are allowed"
+            },
+            {
+              "enabledNodeTypes": [
+                "heading-1",
+                "heading-2",
+                "heading-3",
+                "heading-4",
+                "heading-5",
+                "heading-6",
+                "ordered-list",
+                "unordered-list",
+                "hr",
+                "blockquote",
+                "embedded-entry-block",
+                "embedded-asset-block",
+                "table",
+                "hyperlink",
+                "entry-hyperlink",
+                "asset-hyperlink",
+                "embedded-entry-inline"
+              ],
+              "message": "Only heading 1, heading 2, heading 3, heading 4, heading 5, heading 6, ordered list, unordered list, horizontal rule, quote, block entry, asset, table, link to Url, link to entry, link to asset, and inline entry nodes are allowed"
+            },
+            {
+              "nodes": {
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        }
+      ]
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "property",
+        "type": "ContentType",
+        "createdAt": "2024-10-08T13:09:43.677Z",
+        "updatedAt": "2024-10-08T13:09:44.443Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 1,
+        "publishedAt": "2024-10-08T13:09:44.443Z",
+        "firstPublishedAt": "2024-10-08T13:09:44.443Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 2,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/content_types/property"
+      },
+      "displayField": null,
+      "name": "物件",
+      "description": "不動産物件管理用のコンテンツタイプ",
+      "fields": [
+        {
+          "id": "propertyId",
+          "name": "物件ID",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "managementId",
+          "name": "物件管理ID",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "region",
+          "name": "地域",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "district",
+          "name": "地区",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "addressDisplay",
+          "name": "所在地(表示用)",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "address",
+          "name": "所在地",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "buildingName",
+          "name": "建物名",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "nearestLine1",
+          "name": "最寄り路線1",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "nearestStation1",
+          "name": "最寄駅1",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "bus1",
+          "name": "バス1",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "walk1",
+          "name": "徒歩1",
+          "type": "Integer",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "nearestLine2",
+          "name": "最寄り路線2",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "nearestStation2",
+          "name": "最寄駅2",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "bus2",
+          "name": "バス2",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "walk2",
+          "name": "徒歩2",
+          "type": "Integer",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "rent",
+          "name": "賃料",
+          "type": "Number",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "tsuboPrice",
+          "name": "坪単価",
+          "type": "Number",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "keyMoneyGift",
+          "name": "権利金礼金",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "depositSecurity",
+          "name": "保証金敷金",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "maintenanceFee",
+          "name": "共益、管理費",
+          "type": "Number",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "area",
+          "name": "面積",
+          "type": "Number",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "areaTsubo",
+          "name": "面積坪",
+          "type": "Number",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "depreciation",
+          "name": "償却",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "buildYear",
+          "name": "築年",
+          "type": "Integer",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "renewalFee",
+          "name": "更新料",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "isVacant",
+          "name": "居抜きかどうか",
+          "type": "Boolean",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "transferFee",
+          "name": "造作譲渡料",
+          "type": "Number",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "previousTenant",
+          "name": "前テナント",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "structure",
+          "name": "構造",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "topFloor",
+          "name": "最上階",
+          "type": "Integer",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "lowestFloor",
+          "name": "最深階",
+          "type": "Integer",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "floorCode",
+          "name": "階数コード",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "privateStairs",
+          "name": "専用階段",
+          "type": "Boolean",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "floorNumber",
+          "name": "階数",
+          "type": "Integer",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "contractPeriod",
+          "name": "契約期間",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "transactionType",
+          "name": "取引態様",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "lightFood",
+          "name": "軽飲食",
+          "type": "Boolean",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "heavyFood",
+          "name": "重飲食",
+          "type": "Boolean",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "pubSnack",
+          "name": "パブ・スナック",
+          "type": "Boolean",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "notes",
+          "name": "備考",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "listComment",
+          "name": "一覧コメント",
+          "type": "Text",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "floorPlan",
+          "name": "間取り図",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset"
+        },
+        {
+          "id": "exteriorImage1",
+          "name": "外観図1",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset"
+        },
+        {
+          "id": "exteriorImage2",
+          "name": "外観図2",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset"
+        },
+        {
+          "id": "exteriorImage3",
+          "name": "外観図3",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset"
+        },
+        {
+          "id": "exteriorImage4",
+          "name": "外観図4",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset"
+        },
+        {
+          "id": "exteriorImage5",
+          "name": "外観図5",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset"
+        },
+        {
+          "id": "exteriorImage6",
+          "name": "外観図6",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset"
+        },
+        {
+          "id": "exteriorImage7",
+          "name": "外観図7",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset"
+        },
+        {
+          "id": "status",
+          "name": "物件の状態",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        }
+      ]
+    }
+  ],
+  "tags": [
+  ],
+  "editorInterfaces": [
+    {
+      "sys": {
+        "id": "default",
+        "type": "EditorInterface",
+        "space": {
+          "sys": {
+            "id": "4bxuoy1vcuyi",
+            "type": "Link",
+            "linkType": "Space"
+          }
+        },
+        "version": 2,
+        "createdAt": "2023-04-19T02:38:17.426Z",
+        "createdBy": {
+          "sys": {
+            "id": "1FSIisGBKQ0KZCCmfxPSm9",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "updatedAt": "2023-04-19T02:38:18.212Z",
+        "updatedBy": {
+          "sys": {
+            "id": "1FSIisGBKQ0KZCCmfxPSm9",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "id": "blog",
+            "type": "Link",
+            "linkType": "ContentType"
+          }
+        },
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        }
+      },
+      "controls": [
+        {
+          "fieldId": "title",
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "image",
+          "widgetId": "assetLinkEditor",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "description",
+          "widgetId": "richTextEditor",
+          "widgetNamespace": "builtin"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "default",
+        "type": "EditorInterface",
+        "space": {
+          "sys": {
+            "id": "4bxuoy1vcuyi",
+            "type": "Link",
+            "linkType": "Space"
+          }
+        },
+        "version": 1,
+        "createdAt": "2024-10-08T13:09:44.865Z",
+        "createdBy": {
+          "sys": {
+            "id": "1FSIisGBKQ0KZCCmfxPSm9",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "updatedAt": "2024-10-08T13:09:44.865Z",
+        "updatedBy": {
+          "sys": {
+            "id": "1FSIisGBKQ0KZCCmfxPSm9",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "id": "property",
+            "type": "Link",
+            "linkType": "ContentType"
+          }
+        },
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        }
+      },
+      "controls": [
+        {
+          "fieldId": "propertyId"
+        },
+        {
+          "fieldId": "managementId"
+        },
+        {
+          "fieldId": "region"
+        },
+        {
+          "fieldId": "district"
+        },
+        {
+          "fieldId": "addressDisplay"
+        },
+        {
+          "fieldId": "address"
+        },
+        {
+          "fieldId": "buildingName"
+        },
+        {
+          "fieldId": "nearestLine1"
+        },
+        {
+          "fieldId": "nearestStation1"
+        },
+        {
+          "fieldId": "bus1"
+        },
+        {
+          "fieldId": "walk1"
+        },
+        {
+          "fieldId": "nearestLine2"
+        },
+        {
+          "fieldId": "nearestStation2"
+        },
+        {
+          "fieldId": "bus2"
+        },
+        {
+          "fieldId": "walk2"
+        },
+        {
+          "fieldId": "rent"
+        },
+        {
+          "fieldId": "tsuboPrice"
+        },
+        {
+          "fieldId": "keyMoneyGift"
+        },
+        {
+          "fieldId": "depositSecurity"
+        },
+        {
+          "fieldId": "maintenanceFee"
+        },
+        {
+          "fieldId": "area"
+        },
+        {
+          "fieldId": "areaTsubo"
+        },
+        {
+          "fieldId": "depreciation"
+        },
+        {
+          "fieldId": "buildYear"
+        },
+        {
+          "fieldId": "renewalFee"
+        },
+        {
+          "fieldId": "isVacant"
+        },
+        {
+          "fieldId": "transferFee"
+        },
+        {
+          "fieldId": "previousTenant"
+        },
+        {
+          "fieldId": "structure"
+        },
+        {
+          "fieldId": "topFloor"
+        },
+        {
+          "fieldId": "lowestFloor"
+        },
+        {
+          "fieldId": "floorCode"
+        },
+        {
+          "fieldId": "privateStairs"
+        },
+        {
+          "fieldId": "floorNumber"
+        },
+        {
+          "fieldId": "contractPeriod"
+        },
+        {
+          "fieldId": "transactionType"
+        },
+        {
+          "fieldId": "lightFood"
+        },
+        {
+          "fieldId": "heavyFood"
+        },
+        {
+          "fieldId": "pubSnack"
+        },
+        {
+          "fieldId": "notes"
+        },
+        {
+          "fieldId": "listComment"
+        },
+        {
+          "fieldId": "floorPlan"
+        },
+        {
+          "fieldId": "exteriorImage1"
+        },
+        {
+          "fieldId": "exteriorImage2"
+        },
+        {
+          "fieldId": "exteriorImage3"
+        },
+        {
+          "fieldId": "exteriorImage4"
+        },
+        {
+          "fieldId": "exteriorImage5"
+        },
+        {
+          "fieldId": "exteriorImage6"
+        },
+        {
+          "fieldId": "exteriorImage7"
+        },
+        {
+          "fieldId": "status"
+        }
+      ]
+    }
+  ],
+  "locales": [
+    {
+      "name": "Japanese",
+      "code": "ja",
+      "fallbackCode": null,
+      "default": true,
+      "contentManagementApi": true,
+      "contentDeliveryApi": true,
+      "optional": false,
+      "sys": {
+        "type": "Locale",
+        "id": "1LfMld2ZykT427Dk3tMhVu",
+        "version": 2,
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "environment": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Environment",
+            "id": "master",
+            "uuid": "46575103-07aa-4c33-be14-7d18492ac271"
+          }
+        },
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "createdAt": "2022-04-18T01:53:11Z",
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedAt": "2024-10-08T13:23:29Z"
+      }
+    }
+  ]
+}

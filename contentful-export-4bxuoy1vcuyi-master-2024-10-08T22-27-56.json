@@ -1,0 +1,1624 @@
+{
+  "tags": [
+  ],
+  "entries": [
+    {
+      "metadata": {
+        "tags": [
+        ],
+        "concepts": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "186iIjmYmK0VmAPsgAPXxF",
+        "type": "Entry",
+        "createdAt": "2023-04-19T02:38:23.162Z",
+        "updatedAt": "2023-04-19T02:39:44.523Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 4,
+        "publishedAt": "2023-04-19T02:39:44.523Z",
+        "firstPublishedAt": "2023-04-19T02:39:44.523Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 5,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "automationTags": [
+        ],
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "blog"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/entries/186iIjmYmK0VmAPsgAPXxF"
+      },
+      "fields": {
+        "title": {
+          "ja": "【後編】創業の思い　〜スポーツに関わる全てのヒトの才能を開花させる〜"
+        },
+        "image": {
+          "ja": {
+            "sys": {
+              "type": "Link",
+              "linkType": "Asset",
+              "id": "2OWjcAMmg1Xni5JpLjuaIi"
+            }
+          }
+        },
+        "description": {
+          "ja": {
+            "data": {
+            },
+            "content": [
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "iniasuの手掛ける事業\nIniasuでは、２つの事業で、指導者の課題解決を支援します。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "【指導者向けコーチング事業】\n教える＝teachではなく、導く＝coachのスキルを高めます。\n大事にしている観点は3点。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "・選手の自己実現を中心に考え、その時に指導者として求められる働きかけは何かを学べるような内容に設計\n・実際にやってみた取り組みをシェアし、指導者どうしが主体的に学び合うこと\n・少人数制（5～10名）のクラス制。学んだ内容の実践や、意見交換の場を毎回設ける。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "【指導者向けメディア事業】\nスキルに関する情報、組織開発や選手育成など指導に関する情報を Iniasuが取材し内容をまとめ「現場の生の声」発信します。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "\n  iniasuの発信するメディアで毎日、現場で気になる・困ることを検索し情報を仕入れ、コーチングスキルを身に着け、指導者として選手を導くスキルを学んでいただく。どれもが机上の空論ではなく、現場ですぐ使える＝指導者・選手にとって本当に価値のある機会を提供したい、それこそが我々が目指したい、スポーツ現場の皆様とともに、日本スポーツの新しいより良い未来を創ることにつながると信じているからです。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "そして『指導者に新しいコミュニティを創造し提供すること』にもこだわっています。私が出逢う指導者の方々は、一番に子供の成長を考え、学び、行動を起こそうとしている方々ばかりです。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "その一方で感じるのが、そんな素敵な指導者同士がつながる場がとても少ないこと。ビジネスの世界だと、ノウハウを共有する仕組みや機会や困りごとを相談するコミュニティは存在しますが、スポーツ現場ではその機会がとても少ない。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "それ故に指導者自身の成長を感じにくかったり、解決策が増えず悩んだり、より良い方向へアップデートしていかないという「不」があると思います。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "そんな「不」に向き合い、解決する場所としてiniasuがあると思っています。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "社名の由来\nIncubate（孵化する）＋genius（才能）＋asu（明日・未来）の造語をもとにiniasu(イニアス)と名付けました。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "スポーツに関わるひとり一人、それは指導者・選手ともに、みんながもつ才能・らしさや強みを更に開花させられるように、そしてそんな素敵な方々同士のつながりが増え、今よりも良い未来をみんなで創造していく。人と人が繋がり、期待しあい、そして成長していく。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "子どもや選手を始め、指導者がその人の持っている才能を最大化させる機会を作ることが我々の使命だと思っています。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "おわり",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              }
+            ],
+            "nodeType": "document"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ],
+        "concepts": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "2iJy4ORThcfhDY3JOe5iI6",
+        "type": "Entry",
+        "createdAt": "2023-04-19T02:39:50.839Z",
+        "updatedAt": "2023-04-19T02:54:22.966Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 5,
+        "publishedAt": "2023-04-19T02:54:22.966Z",
+        "firstPublishedAt": "2023-04-19T02:40:30.441Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 2,
+        "version": 6,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "automationTags": [
+        ],
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "blog"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/entries/2iJy4ORThcfhDY3JOe5iI6"
+      },
+      "fields": {
+        "title": {
+          "ja": "コーチングとは2?"
+        },
+        "image": {
+          "ja": {
+            "sys": {
+              "type": "Link",
+              "linkType": "Asset",
+              "id": "1g9pWa3jpUfwE7uFr0co9s"
+            }
+          }
+        },
+        "description": {
+          "ja": {
+            "data": {
+            },
+            "content": [
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "ビジネス界隈でもよく耳にするようになった「コーチング」という言葉。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "コーチングとは、相手の自発的行動を促進するコミュニケーションのことを指します。\nコーチという言葉は、もともと「馬車」のことを指し、\n「大切な人をその人が望むところまで送り届ける」という意味で使われていました。\nそこから「人の目標達成を支援する」という意味で使われるようになっています。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "VUCAと呼ばれる時代に突入したとメディアで騒がれるようになってから、巷で耳にする機会が多くなってきたような気がします。正解がない世の中において、自らの方向性を定める必要性が高まってきていることも起因していると言われています。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "部活の顧問先生やスポーツ塾のコーチの方々の",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "・子どもたちの主体性を引き出すのが難しい。\n・考える力を身につけて欲しい\n・一方的に教えるだけの指導に限界を感じている",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "などの悩みを解決する一つのソリューションとなりうるコミュニケーションスキルです。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "上記の悩みを解決するべく、指導者向けのオンラインスポーツコーチング講座「Leading Coach」をスタートをしました。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "主体性を育むアプローチを身につけられる\n同じ思いを持った指導者と繋がれる\nコーチとして、指導者にコーチングができるようになる\n次期開催の受講生募集中ですので、お気軽にお問い合わせください。",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              }
+            ],
+            "nodeType": "document"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ],
+        "concepts": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "1zyJGmuBcuTZ6NOe1gp5PG",
+        "type": "Entry",
+        "createdAt": "2024-10-08T13:24:59.538Z",
+        "updatedAt": "2024-10-08T13:25:30.794Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 3,
+        "publishedAt": "2024-10-08T13:25:30.794Z",
+        "firstPublishedAt": "2024-10-08T13:25:30.794Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 4,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "fieldStatus": {
+          "*": {
+            "ja": "published"
+          }
+        },
+        "automationTags": [
+        ],
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "property"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/entries/1zyJGmuBcuTZ6NOe1gp5PG"
+      },
+      "fields": {
+        "propertyId": {
+          "ja": "bukkenId"
+        },
+        "managementId": {
+          "ja": "bukkenKanriId"
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "4sf2TiCAJnet0ZEom3y7bL",
+        "type": "Asset",
+        "createdAt": "2022-04-18T06:39:21.381Z",
+        "updatedAt": "2022-04-24T13:04:51.873Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 29,
+        "publishedAt": "2022-04-24T13:04:51.873Z",
+        "firstPublishedAt": "2022-04-18T06:40:12.779Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 7,
+        "version": 30,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/assets/4sf2TiCAJnet0ZEom3y7bL"
+      },
+      "fields": {
+        "title": {
+          "ja": "Logo"
+        },
+        "description": {
+          "ja": "ロゴです"
+        },
+        "file": {
+          "ja": {
+            "url": "//images.ctfassets.net/4bxuoy1vcuyi/4sf2TiCAJnet0ZEom3y7bL/5df9a59d01dc8e46e81a9319c80260bf/logo2.png",
+            "details": {
+              "size": 2480,
+              "image": {
+                "width": 274,
+                "height": 63
+              }
+            },
+            "fileName": "logo2.png",
+            "contentType": "image/png"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "59QwhM1CjIcuSOVuNz5wPH",
+        "type": "Asset",
+        "createdAt": "2022-04-18T08:48:58.267Z",
+        "updatedAt": "2022-04-24T06:50:44.084Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 18,
+        "publishedAt": "2022-04-24T06:50:44.084Z",
+        "firstPublishedAt": "2022-04-18T08:49:48.774Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 4,
+        "version": 19,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/assets/59QwhM1CjIcuSOVuNz5wPH"
+      },
+      "fields": {
+        "title": {
+          "ja": "伊藤 和也"
+        },
+        "description": {
+          "ja": "伊藤 和也の写真です"
+        },
+        "file": {
+          "ja": {
+            "url": "//images.ctfassets.net/4bxuoy1vcuyi/59QwhM1CjIcuSOVuNz5wPH/3543b1b24938d811e3a73f26e05b6baf/download.jpg",
+            "details": {
+              "size": 13137,
+              "image": {
+                "width": 315,
+                "height": 160
+              }
+            },
+            "fileName": "download.jpg",
+            "contentType": "image/jpeg"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "3fWGeYh8J04VUTdn1SZUfi",
+        "type": "Asset",
+        "createdAt": "2022-04-21T00:22:26.190Z",
+        "updatedAt": "2022-04-21T00:25:31.103Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 8,
+        "publishedAt": "2022-04-21T00:25:31.103Z",
+        "firstPublishedAt": "2022-04-21T00:25:31.103Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 9,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/assets/3fWGeYh8J04VUTdn1SZUfi"
+      },
+      "fields": {
+        "title": {
+          "ja": "バナー画像"
+        },
+        "description": {
+          "ja": "バナーの画像です"
+        },
+        "file": {
+          "ja": {
+            "url": "//images.ctfassets.net/4bxuoy1vcuyi/3fWGeYh8J04VUTdn1SZUfi/632f6a3c0e704b45de75e8985d20ba05/banner.jpg",
+            "details": {
+              "size": 40134,
+              "image": {
+                "width": 760,
+                "height": 260
+              }
+            },
+            "fileName": "banner.jpg",
+            "contentType": "image/jpeg"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "6FxIkwPpzQOZp57nL6y0uL",
+        "type": "Asset",
+        "createdAt": "2022-04-21T06:17:04.323Z",
+        "updatedAt": "2022-05-02T13:09:57.074Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 8,
+        "publishedAt": "2022-05-02T13:09:57.074Z",
+        "firstPublishedAt": "2022-04-21T06:17:34.539Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 2,
+        "version": 9,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/assets/6FxIkwPpzQOZp57nL6y0uL"
+      },
+      "fields": {
+        "title": {
+          "ja": "ヒーロー画像1"
+        },
+        "description": {
+          "ja": ""
+        },
+        "file": {
+          "ja": {
+            "url": "//images.ctfassets.net/4bxuoy1vcuyi/6FxIkwPpzQOZp57nL6y0uL/5e111a557183d7ed2ed8b3b55718ab54/hero.jpg",
+            "details": {
+              "size": 658676,
+              "image": {
+                "width": 1680,
+                "height": 1038
+              }
+            },
+            "fileName": "hero.jpg",
+            "contentType": "image/jpeg"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "vyr65iRgxRzk0Bhyx8XpV",
+        "type": "Asset",
+        "createdAt": "2022-04-21T06:18:18.159Z",
+        "updatedAt": "2022-05-03T01:42:59.464Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 8,
+        "publishedAt": "2022-05-03T01:42:59.464Z",
+        "firstPublishedAt": "2022-04-21T06:18:31.966Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 2,
+        "version": 9,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/assets/vyr65iRgxRzk0Bhyx8XpV"
+      },
+      "fields": {
+        "title": {
+          "ja": "ヒーロー画像2"
+        },
+        "description": {
+          "ja": ""
+        },
+        "file": {
+          "ja": {
+            "url": "//images.ctfassets.net/4bxuoy1vcuyi/vyr65iRgxRzk0Bhyx8XpV/c147a857731e246712b5fa12a4869424/AdobeStock_255484096_Preview.jpeg",
+            "details": {
+              "size": 539525,
+              "image": {
+                "width": 1000,
+                "height": 667
+              }
+            },
+            "fileName": "AdobeStock_255484096_Preview.jpeg",
+            "contentType": "image/jpeg"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "4T5Fi67MItwBaWDldqQMEt",
+        "type": "Asset",
+        "createdAt": "2022-04-21T06:18:55.962Z",
+        "updatedAt": "2022-04-21T06:19:09.616Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 4,
+        "publishedAt": "2022-04-21T06:19:09.616Z",
+        "firstPublishedAt": "2022-04-21T06:19:09.616Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 5,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/assets/4T5Fi67MItwBaWDldqQMEt"
+      },
+      "fields": {
+        "title": {
+          "ja": "ヒーロー画像3"
+        },
+        "description": {
+          "ja": ""
+        },
+        "file": {
+          "ja": {
+            "url": "//images.ctfassets.net/4bxuoy1vcuyi/4T5Fi67MItwBaWDldqQMEt/06e85a4c92c176b55823909eade5d0d0/img_main_slide_0003.jpg",
+            "details": {
+              "size": 166636,
+              "image": {
+                "width": 1280,
+                "height": 600
+              }
+            },
+            "fileName": "img_main_slide_0003.jpg",
+            "contentType": "image/jpeg"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "6JLRtJSj7fg00JlZxlS3oP",
+        "type": "Asset",
+        "createdAt": "2022-04-21T08:34:33.410Z",
+        "updatedAt": "2022-04-21T08:36:37.137Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 4,
+        "publishedAt": "2022-04-21T08:36:37.137Z",
+        "firstPublishedAt": "2022-04-21T08:36:37.137Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 5,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/assets/6JLRtJSj7fg00JlZxlS3oP"
+      },
+      "fields": {
+        "title": {
+          "ja": "画像1"
+        },
+        "description": {
+          "ja": ""
+        },
+        "file": {
+          "ja": {
+            "url": "//images.ctfassets.net/4bxuoy1vcuyi/6JLRtJSj7fg00JlZxlS3oP/56b93244f8d4cc6e729d9c74e29ce35f/bathroom-1.png",
+            "details": {
+              "size": 184416,
+              "image": {
+                "width": 1000,
+                "height": 1250
+              }
+            },
+            "fileName": "bathroom-1.png",
+            "contentType": "image/webp"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "1b4ojjMFBZVTYnrznpvUCx",
+        "type": "Asset",
+        "createdAt": "2022-04-21T08:36:54.337Z",
+        "updatedAt": "2022-04-21T08:37:13.265Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 4,
+        "publishedAt": "2022-04-21T08:37:13.265Z",
+        "firstPublishedAt": "2022-04-21T08:37:13.265Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 5,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/assets/1b4ojjMFBZVTYnrznpvUCx"
+      },
+      "fields": {
+        "title": {
+          "ja": "画像2"
+        },
+        "description": {
+          "ja": ""
+        },
+        "file": {
+          "ja": {
+            "url": "//images.ctfassets.net/4bxuoy1vcuyi/1b4ojjMFBZVTYnrznpvUCx/9cde0ec09419c608b1520e6e7989e8d8/bathroom-2.png",
+            "details": {
+              "size": 55324,
+              "image": {
+                "width": 1000,
+                "height": 666
+              }
+            },
+            "fileName": "bathroom-2.png",
+            "contentType": "image/webp"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "6mAnLkzpZlryyDy8HhMXxi",
+        "type": "Asset",
+        "createdAt": "2022-04-21T08:37:30.240Z",
+        "updatedAt": "2022-04-21T08:37:45.472Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 4,
+        "publishedAt": "2022-04-21T08:37:45.472Z",
+        "firstPublishedAt": "2022-04-21T08:37:45.472Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 5,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/assets/6mAnLkzpZlryyDy8HhMXxi"
+      },
+      "fields": {
+        "title": {
+          "ja": "画像3"
+        },
+        "description": {
+          "ja": ""
+        },
+        "file": {
+          "ja": {
+            "url": "//images.ctfassets.net/4bxuoy1vcuyi/6mAnLkzpZlryyDy8HhMXxi/b245874f1f754e240636308cbfc9b01f/bathroom-3.png",
+            "details": {
+              "size": 33518,
+              "image": {
+                "width": 1000,
+                "height": 666
+              }
+            },
+            "fileName": "bathroom-3.png",
+            "contentType": "image/webp"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "1We4X72cYIsha43FDhNeA1",
+        "type": "Asset",
+        "createdAt": "2022-04-21T08:38:13.432Z",
+        "updatedAt": "2022-04-21T08:38:27.003Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 4,
+        "publishedAt": "2022-04-21T08:38:27.003Z",
+        "firstPublishedAt": "2022-04-21T08:38:27.003Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 5,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/assets/1We4X72cYIsha43FDhNeA1"
+      },
+      "fields": {
+        "title": {
+          "ja": "画像4"
+        },
+        "description": {
+          "ja": ""
+        },
+        "file": {
+          "ja": {
+            "url": "//images.ctfassets.net/4bxuoy1vcuyi/1We4X72cYIsha43FDhNeA1/cb30df649b6d591790b3fd82af66194d/bedroom-1.png",
+            "details": {
+              "size": 61944,
+              "image": {
+                "width": 1000,
+                "height": 659
+              }
+            },
+            "fileName": "bedroom-1.png",
+            "contentType": "image/webp"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "7mV9B89Pw56fO7HSkIoMrB",
+        "type": "Asset",
+        "createdAt": "2022-05-03T01:43:24.517Z",
+        "updatedAt": "2022-05-03T01:43:36.021Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 4,
+        "publishedAt": "2022-05-03T01:43:36.021Z",
+        "firstPublishedAt": "2022-05-03T01:43:36.021Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 5,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/assets/7mV9B89Pw56fO7HSkIoMrB"
+      },
+      "fields": {
+        "title": {
+          "ja": "ヒーロー画像1"
+        },
+        "description": {
+          "ja": ""
+        },
+        "file": {
+          "ja": {
+            "url": "//images.ctfassets.net/4bxuoy1vcuyi/7mV9B89Pw56fO7HSkIoMrB/1a94f9a0001298bb147a216d7117aa72/AdobeStock_145049858_Preview.jpeg",
+            "details": {
+              "size": 120062,
+              "image": {
+                "width": 1000,
+                "height": 261
+              }
+            },
+            "fileName": "AdobeStock_145049858_Preview.jpeg",
+            "contentType": "image/jpeg"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "leCpseTs9bjnOHUVPiimO",
+        "type": "Asset",
+        "createdAt": "2022-05-03T02:29:33.126Z",
+        "updatedAt": "2022-05-03T02:29:48.055Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 4,
+        "publishedAt": "2022-05-03T02:29:48.055Z",
+        "firstPublishedAt": "2022-05-03T02:29:48.055Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 5,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/assets/leCpseTs9bjnOHUVPiimO"
+      },
+      "fields": {
+        "title": {
+          "ja": "ヒーロー画像2"
+        },
+        "description": {
+          "ja": "ヒーロー画像2"
+        },
+        "file": {
+          "ja": {
+            "url": "//images.ctfassets.net/4bxuoy1vcuyi/leCpseTs9bjnOHUVPiimO/4a0cb243da34538871556f66ad224549/hero.jpg",
+            "details": {
+              "size": 658676,
+              "image": {
+                "width": 1680,
+                "height": 1038
+              }
+            },
+            "fileName": "hero.jpg",
+            "contentType": "image/jpeg"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "2OWjcAMmg1Xni5JpLjuaIi",
+        "type": "Asset",
+        "createdAt": "2023-04-19T02:39:05.529Z",
+        "updatedAt": "2023-04-19T02:39:36.614Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 4,
+        "publishedAt": "2023-04-19T02:39:36.614Z",
+        "firstPublishedAt": "2023-04-19T02:39:36.614Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 5,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/assets/2OWjcAMmg1Xni5JpLjuaIi"
+      },
+      "fields": {
+        "title": {
+          "ja": "【後編】創業の思い　〜スポーツに関わる全てのヒトの才能を開花させる〜"
+        },
+        "description": {
+          "ja": "【後編】創業の思い　〜スポーツに関わる全てのヒトの才能を開花させる〜"
+        },
+        "file": {
+          "ja": {
+            "url": "//images.ctfassets.net/4bxuoy1vcuyi/2OWjcAMmg1Xni5JpLjuaIi/cef657ea632fb7f3eede6714c516fce4/ee429ddee664ffcfb8dac650d79a0e82.jpeg",
+            "details": {
+              "size": 31402,
+              "image": {
+                "width": 400,
+                "height": 500
+              }
+            },
+            "fileName": "ee429ddee664ffcfb8dac650d79a0e82.jpeg",
+            "contentType": "image/jpeg"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "4bxuoy1vcuyi"
+          }
+        },
+        "id": "1g9pWa3jpUfwE7uFr0co9s",
+        "type": "Asset",
+        "createdAt": "2023-04-19T02:40:02.390Z",
+        "updatedAt": "2023-04-19T02:40:18.830Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 4,
+        "publishedAt": "2023-04-19T02:40:18.830Z",
+        "firstPublishedAt": "2023-04-19T02:40:18.830Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 5,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "1FSIisGBKQ0KZCCmfxPSm9"
+          }
+        },
+        "urn": "crn:contentful:::content:spaces/4bxuoy1vcuyi/environments/master/assets/1g9pWa3jpUfwE7uFr0co9s"
+      },
+      "fields": {
+        "title": {
+          "ja": "コーチングとは?"
+        },
+        "description": {
+          "ja": "コーチングとは?"
+        },
+        "file": {
+          "ja": {
+            "url": "//images.ctfassets.net/4bxuoy1vcuyi/1g9pWa3jpUfwE7uFr0co9s/c44f08cdf2ce73a4d2a8edf4bc93192f/9a6f1d1d2c092fdc1cddb3c703b9bbba.jpg",
+            "details": {
+              "size": 44196,
+              "image": {
+                "width": 612,
+                "height": 408
+              }
+            },
+            "fileName": "9a6f1d1d2c092fdc1cddb3c703b9bbba.jpg",
+            "contentType": "image/jpeg"
+          }
+        }
+      }
+    }
+  ]
+}

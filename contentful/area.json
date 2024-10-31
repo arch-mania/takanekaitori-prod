@@ -1,0 +1,349 @@
+{
+  "contentTypes": [],
+  "entries": [
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "c5ll46t87s6s"
+          }
+        },
+        "id": "hokkaido",
+        "type": "Entry",
+        "createdAt": "2024-03-20T00:00:00Z",
+        "updatedAt": "2024-03-20T00:00:00Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "area"
+          }
+        },
+        "publishedVersion": 1
+      },
+      "fields": {
+        "name": {
+          "ja": "北海道エリア"
+        },
+        "order": {
+          "ja": 1
+        }
+      }
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "c5ll46t87s6s"
+          }
+        },
+        "id": "tohoku",
+        "type": "Entry",
+        "createdAt": "2024-03-20T00:00:00Z",
+        "updatedAt": "2024-03-20T00:00:00Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "area"
+          }
+        },
+        "publishedVersion": 1
+      },
+      "fields": {
+        "name": {
+          "ja": "東北エリア"
+        },
+        "order": {
+          "ja": 2
+        }
+      }
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "c5ll46t87s6s"
+          }
+        },
+        "id": "kanto",
+        "type": "Entry",
+        "createdAt": "2024-03-20T00:00:00Z",
+        "updatedAt": "2024-03-20T00:00:00Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "area"
+          }
+        },
+        "publishedVersion": 1
+      },
+      "fields": {
+        "name": {
+          "ja": "関東エリア"
+        },
+        "order": {
+          "ja": 3
+        }
+      }
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "c5ll46t87s6s"
+          }
+        },
+        "id": "chubu",
+        "type": "Entry",
+        "createdAt": "2024-03-20T00:00:00Z",
+        "updatedAt": "2024-03-20T00:00:00Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "area"
+          }
+        },
+        "publishedVersion": 1
+      },
+      "fields": {
+        "name": {
+          "ja": "中部エリア"
+        },
+        "order": {
+          "ja": 4
+        }
+      }
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "c5ll46t87s6s"
+          }
+        },
+        "id": "kansai",
+        "type": "Entry",
+        "createdAt": "2024-03-20T00:00:00Z",
+        "updatedAt": "2024-03-20T00:00:00Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "area"
+          }
+        },
+        "publishedVersion": 1
+      },
+      "fields": {
+        "name": {
+          "ja": "関西エリア"
+        },
+        "order": {
+          "ja": 5
+        }
+      }
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "c5ll46t87s6s"
+          }
+        },
+        "id": "chugoku",
+        "type": "Entry",
+        "createdAt": "2024-03-20T00:00:00Z",
+        "updatedAt": "2024-03-20T00:00:00Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "area"
+          }
+        },
+        "publishedVersion": 1
+      },
+      "fields": {
+        "name": {
+          "ja": "中国エリア"
+        },
+        "order": {
+          "ja": 6
+        }
+      }
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "c5ll46t87s6s"
+          }
+        },
+        "id": "shikoku",
+        "type": "Entry",
+        "createdAt": "2024-03-20T00:00:00Z",
+        "updatedAt": "2024-03-20T00:00:00Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "area"
+          }
+        },
+        "publishedVersion": 1
+      },
+      "fields": {
+        "name": {
+          "ja": "四国エリア"
+        },
+        "order": {
+          "ja": 7
+        }
+      }
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "c5ll46t87s6s"
+          }
+        },
+        "id": "kyushu",
+        "type": "Entry",
+        "createdAt": "2024-03-20T00:00:00Z",
+        "updatedAt": "2024-03-20T00:00:00Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "area"
+          }
+        },
+        "publishedVersion": 1
+      },
+      "fields": {
+        "name": {
+          "ja": "九州エリア"
+        },
+        "order": {
+          "ja": 8
+        }
+      }
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "c5ll46t87s6s"
+          }
+        },
+        "id": "okinawa",
+        "type": "Entry",
+        "createdAt": "2024-03-20T00:00:00Z",
+        "updatedAt": "2024-03-20T00:00:00Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "area"
+          }
+        },
+        "publishedVersion": 1
+      },
+      "fields": {
+        "name": {
+          "ja": "沖縄エリア"
+        },
+        "order": {
+          "ja": 9
+        }
+      }
+    }
+  ],
+  "assets": [],
+  "locales": []
+}

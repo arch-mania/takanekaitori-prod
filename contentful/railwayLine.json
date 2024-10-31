@@ -1,0 +1,21 @@
+{
+  "entries": [
+    {
+      "id": 1001,
+      "sys": {
+        "space": { "sys": { "type": "Link", "linkType": "Space", "id": "i81go7j5im3s" } },
+        "type": "Entry",
+        "contentType": {
+          "sys": { "type": "Link", "linkType": "ContentType", "id": "railwayLine" }
+        },
+        "publishedVersion": 1
+      },
+      "fields": {
+        "code": { "ja": "1001" },
+        "name": { "ja": "中央新幹線" },
+        "order": { "ja": 1001 },
+        "isHidden": { "ja": false }
+      }
+    }
+  ]
+}

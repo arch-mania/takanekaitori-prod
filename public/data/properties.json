@@ -1,0 +1,214 @@
+[
+  {
+    "id": "338842",
+    "image": "/propertyImage.png",
+    "title": "港区新橋1　69.3万円　新橋のラーメン屋居抜き",
+    "price": "69.3万円",
+    "address": "港区新橋1",
+    "size": "32.0m2",
+    "distance": "JR山手線 新橋駅 徒歩1分",
+    "isFavorite": false,
+    "details": [
+      { "label": "最寄り駅", "value": "JR山手線 新橋駅 徒歩1分" },
+      { "label": "賃料/坪単価", "value": "69.3万円 / 71,590円" },
+      { "label": "面積", "value": "32.0m2 / 9.68坪" },
+      { "label": "所在地", "value": "港区新橋1" }
+    ],
+    "badges": [
+      { "text": "NEW", "variant": "new" },
+      { "text": "居抜き", "variant": "skeleton" }
+    ],
+    "comment": "駅前！路面！重飲食可！視認性良好！",
+    "status": "掲載中",
+    "inquiries": 7,
+    "views": 73
+  },
+  {
+    "id": "338826",
+    "image": "/propertyImage.png",
+    "title": "大阪市北区兎我野町　25.3万円　東梅田のバー居抜き",
+    "price": "25.3万円",
+    "address": "大阪市北区兎我野町",
+    "size": "35.04m2",
+    "distance": "地下鉄谷町線 東梅田駅 徒歩7分",
+    "isFavorite": false,
+    "details": [
+      { "label": "最寄り駅", "value": "地下鉄谷町線 東梅田駅 徒歩7分" },
+      { "label": "賃料/坪単価", "value": "25.3万円 / 23,867円" },
+      { "label": "面積", "value": "35.04m2 / 10.6坪" },
+      { "label": "所在地", "value": "大阪市北区兎我野町" }
+    ],
+    "badges": [{ "text": "居抜き", "variant": "skeleton" }],
+    "status": "掲載中",
+    "inquiries": 0,
+    "views": 24
+  },
+  {
+    "id": "338770",
+    "image": "/propertyImage.png",
+    "title": "文京区湯島3　12.1万円　湯島の飲食店居抜き",
+    "price": "12.1万円",
+    "address": "文京区湯島3",
+    "size": "18.72m2",
+    "distance": "東京メトロ千代田線 湯島駅 徒歩1分",
+    "isFavorite": false,
+    "details": [
+      { "label": "最寄り駅", "value": "東京メトロ千代田線 湯島駅 徒歩1分" },
+      { "label": "賃料/坪単価", "value": "12.1万円 / 21,378円" },
+      { "label": "面積", "value": "18.72m2 / 5.66坪" },
+      { "label": "所在地", "value": "文京区湯島3" }
+    ],
+    "badges": [{ "text": "居抜き", "variant": "skeleton" }],
+    "status": "掲載中",
+    "inquiries": 3,
+    "views": 59
+  },
+  {
+    "id": "338769",
+    "image": "/propertyImage.png",
+    "title": "文京区湯島3　12.1万円　湯島の小料理屋居抜き",
+    "price": "12.1万円",
+    "address": "文京区湯島3",
+    "size": "14.61m2",
+    "distance": "東京メトロ千代田線 湯島駅 徒歩1分",
+    "isFavorite": false,
+    "details": [
+      { "label": "最寄り駅", "value": "東京メトロ千代田線 湯島駅 徒歩1分" },
+      { "label": "賃料/坪単価", "value": "12.1万円 / 27,375円" },
+      { "label": "面積", "value": "14.61m2 / 4.42坪" },
+      { "label": "所在地", "value": "文京区湯島3" }
+    ],
+    "badges": [{ "text": "居抜き", "variant": "skeleton" }],
+    "status": "掲載中",
+    "inquiries": 2,
+    "views": 49
+  },
+  {
+    "id": "338740",
+    "image": "https://www.inshokuten.com/common/inshokuten-com/upload_picture/S1726369423452_1.jpg",
+    "title": "新宿区百人町1　26.4万円　大久保のBAR居抜き物件",
+    "price": "26.4万円",
+    "address": "新宿区百人町1",
+    "size": "28.56m2",
+    "distance": "JR中央線 大久保駅 徒歩1分",
+    "isFavorite": false,
+    "details": [
+      {
+        "label": "最寄り駅",
+        "value": "JR中央線 大久保駅 徒歩1分\n西武新宿線 西武新宿駅 徒歩9分"
+      },
+      { "label": "賃料/坪単価", "value": "26.4万円 / 30,555円" },
+      { "label": "面積", "value": "28.56m2 / 8.64坪" },
+      { "label": "所在地", "value": "新宿区百人町1" }
+    ],
+    "badges": [{ "text": "居抜き", "variant": "skeleton" }],
+    "comment": "大久保駅徒歩１分！新宿駅からも徒歩圏内！BAR居抜き物件です！",
+    "status": "掲載中",
+    "inquiries": 4,
+    "views": 127
+  },
+  {
+    "id": "338667",
+    "image": "https://www.inshokuten.com/common/inshokuten-com/upload_picture/S1726211576333_1.jpg",
+    "title": "大阪市中央区谷町9　44.0万円　谷町九丁目の路面店物件",
+    "price": "44.0万円",
+    "address": "大阪市中央区谷町9",
+    "size": "95.76m2",
+    "distance": "地下鉄谷町線 谷町九丁目駅 徒歩3分",
+    "isFavorite": false,
+    "details": [
+      { "label": "最寄り駅", "value": "地下鉄谷町線 谷町九丁目駅 徒歩3分" },
+      { "label": "賃料/坪単価", "value": "44.0万円 / 15,188円" },
+      { "label": "面積", "value": "95.76m2 / 28.97坪" },
+      { "label": "所在地", "value": "大阪市中央区谷町9" }
+    ],
+    "comment": "■谷町九丁目駅徒歩3分の路面店物件！【業種要相談】",
+    "status": "掲載中",
+    "inquiries": 2,
+    "views": 48
+  },
+  {
+    "id": "338660",
+    "image": "/propertyImage.png",
+    "title": "北区赤羽1　27.5万円　赤羽のネットカフェ居抜き",
+    "price": "27.5万円",
+    "address": "北区赤羽1",
+    "size": "70.0m2",
+    "distance": "JR京浜東北・根岸線 赤羽駅 徒歩9分",
+    "isFavorite": false,
+    "details": [
+      {
+        "label": "最寄り駅",
+        "value": "JR京浜東北・根岸線 赤羽駅 徒歩9分\n東京メトロ南北線 赤羽岩淵駅 徒歩1分"
+      },
+      { "label": "賃料/坪単価", "value": "27.5万円 / 12,983円" },
+      { "label": "面積", "value": "70.0m2 / 21.18坪" },
+      { "label": "所在地", "value": "北区赤羽1" }
+    ],
+    "badges": [{ "text": "居抜き", "variant": "skeleton" }],
+    "comment": "赤羽中央街付近！スナック、ガールズバーにオススメ！！",
+    "status": "掲載中",
+    "inquiries": 5,
+    "views": 58
+  },
+  {
+    "id": "338562",
+    "image": "/propertyImage.png",
+    "title": "荒川区荒川3　9.5万円　三河島のスナック居抜き",
+    "price": "9.5万円",
+    "address": "荒川区荒川3",
+    "size": "26.5m2",
+    "distance": "JR常磐線 三河島駅 徒歩3分",
+    "isFavorite": false,
+    "details": [
+      { "label": "最寄り駅", "value": "JR常磐線 三河島駅 徒歩3分" },
+      { "label": "賃料/坪単価", "value": "9.5万円 / 11,875円" },
+      { "label": "面積", "value": "26.5m2 / 8.0坪" },
+      { "label": "所在地", "value": "荒川区荒川3" }
+    ],
+    "badges": [{ "text": "居抜き", "variant": "skeleton" }],
+    "status": "掲載中",
+    "inquiries": 5,
+    "views": 144
+  },
+  {
+    "id": "338546",
+    "image": "https://www.inshokuten.com/common/inshokuten-com/upload_picture/S1726131955586_1.jpg",
+    "title": "東大阪市足代新町15　9.9万円　布施の居抜き物件",
+    "price": "9.9万円",
+    "address": "東大阪市足代新町15",
+    "size": "21.8m2",
+    "distance": "近鉄大阪線 布施駅 徒歩5分",
+    "isFavorite": false,
+    "details": [
+      { "label": "最寄り駅", "value": "近鉄大阪線 布施駅 徒歩5分" },
+      { "label": "賃料/坪単価", "value": "9.9万円 / 15,517円" },
+      { "label": "面積", "value": "21.8m2 / 6.38坪" },
+      { "label": "所在地", "value": "東大阪市足代新町15" }
+    ],
+    "badges": [{ "text": "居抜き", "variant": "skeleton" }],
+    "status": "掲載中",
+    "inquiries": 0,
+    "views": 49
+  },
+  {
+    "id": "338536",
+    "image": "/propertyImage.png",
+    "title": "渋谷区恵比寿1　63.8万円　恵比寿のタイ料理店跡",
+    "price": "63.8万円",
+    "address": "渋谷区恵比寿1",
+    "size": "42.42m2",
+    "distance": "JR山手線 恵比寿駅 徒歩4分",
+    "isFavorite": false,
+    "details": [
+      { "label": "最寄り駅", "value": "JR山手線 恵比寿駅 徒歩4分" },
+      { "label": "賃料/坪単価", "value": "63.8万円 / 49,727円" },
+      { "label": "面積", "value": "42.42m2 / 12.83坪" },
+      { "label": "所在地", "value": "渋谷区恵比寿1" }
+    ],
+    "comment": "重飲食、外国籍相談可能！！",
+    "status": "掲載中",
+    "inquiries": 7,
+    "views": 66
+  }
+]
