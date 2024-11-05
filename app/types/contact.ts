@@ -16,6 +16,7 @@ export type FormData = {
   message: string;
   propertyTitle?: string;
   propertyId?: string;
+  assignedAgent?: string;
 };
 
 export type ActionData = {

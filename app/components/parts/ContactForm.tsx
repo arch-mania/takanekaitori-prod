@@ -9,9 +9,10 @@ import type { ActionData } from '~/types/contact';
 interface ContactFormProps {
   propertyId?: string;
   propertyTitle?: string;
+  assignedAgent?: string;
 }
 
-const ContactForm = ({ propertyTitle, propertyId }: ContactFormProps) => {
+const ContactForm = ({ propertyTitle, propertyId, assignedAgent }: ContactFormProps) => {
   const actionData = useActionData<ActionData>();
   const navigation = useNavigation();
   const [showOtherInput, setShowOtherInput] = useState(false);
@@ -53,6 +54,7 @@ const ContactForm = ({ propertyTitle, propertyId }: ContactFormProps) => {
       <Form method="post" className="space-y-6">
         <input type="hidden" name="propertyTitle" value={propertyTitle || ''} />
         <input type="hidden" name="propertyId" value={propertyId || ''} />
+        <input type="hidden" name="assignedAgent" value={assignedAgent || ''} />
         <div className="space-y-2">
           <Label className="block text-sm font-medium">
             お問い合わせ内容{' '}

@@ -24,14 +24,14 @@ export const saveContactForm = async (data: FormData) => {
 
 ────────────────────
 物件ID: ${data.propertyId ? `${data.propertyId}` : 'お問い合わせ'}
+担当者: ${data.assignedAgent}
 物件タイトル： ${data.propertyTitle ? `${data.propertyTitle}` : `物件指定なし`}
-お問い合わせ内容: ${data.inquiryType}
-その他詳細: ${data.inquiryContent ? `${data.inquiryContent}` : `-`}
 お名前: ${data.name}
 メールアドレス: ${data.email}
 電話番号: ${data.phone ? `${data.phone}` : `-`}
+お問い合わせ内容: ${data.inquiryType}
+その他詳細: ${data.inquiryContent ? `${data.inquiryContent}` : `-`}
 ご要望/確認事項: ${data.message}
-担当者:
 ────────────────────`,
       });
     } catch (error) {

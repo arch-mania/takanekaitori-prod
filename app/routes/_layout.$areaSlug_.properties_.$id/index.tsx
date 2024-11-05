@@ -199,6 +199,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     const property: PropertyDetail = {
       id: entries.sys.id,
       propertyId: fields.propertyId,
+      assignedAgent: fields.assignedAgent || '',
       title: fields.title || '',
       address: fields.address || '',
       distance: fields.walkingTimeToStation ? `徒歩${fields.walkingTimeToStation}分` : '-',
@@ -414,7 +415,11 @@ export default function PropertyDetail() {
         }`}
       >
         <h2 className="mb-6 text-center text-xl font-bold">物件のお問い合わせ</h2>
-        <ContactForm propertyTitle={property.title} propertyId={property.propertyId} />
+        <ContactForm
+          propertyTitle={property.title}
+          propertyId={property.propertyId}
+          assignedAgent={property.assignedAgent}
+        />
       </div>
 
       <div className="space-y-4 px-4 py-8 text-center lg:py-14">
