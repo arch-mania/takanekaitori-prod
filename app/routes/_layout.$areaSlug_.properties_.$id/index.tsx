@@ -176,10 +176,10 @@ export const loader: LoaderFunction = async ({ params }) => {
     }
 
     const images = [
-      ...(fields.exteriorImages?.map((image: any) => image.fields.file.url) || [
+      ...(fields.exteriorImages?.map((image: any) => image.fields?.file?.url) || [
         '/propertyImage.png',
       ]),
-      ...(fields.floorPlan ? [fields.floorPlan.fields.file.url] : []),
+      ...(fields.floorPlan ? [fields.floorPlan.fields?.file?.url] : []),
     ];
 
     const formatFloor = (floors: string[]): string => {
