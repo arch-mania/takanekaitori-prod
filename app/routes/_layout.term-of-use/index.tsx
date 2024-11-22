@@ -132,7 +132,7 @@ const TERM_OF_USE_CONTENT = {
     {
       title: '',
       content: `附則
-2024年●月●日　施行`,
+2024年11月1日　施行`,
     },
   ],
 };
