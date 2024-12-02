@@ -369,32 +369,6 @@ export default function Index() {
             </div>
           </div>
         </section>
-        {featuredProperties?.length > 0 && (
-          <section className="space-y-8 lg:space-y-6">
-            <Heading level={2}>注目物件</Heading>
-            <div className="flex flex-wrap gap-3 gap-y-6 lg:gap-x-[20px]">
-              {featuredProperties.map((property) => (
-                <PropertyCard
-                  key={property.id}
-                  areaSlug={areaSlug}
-                  id={property.id}
-                  image={property.image}
-                  title={property.title}
-                  price={property.price}
-                  address={property.address}
-                  size={property.size}
-                  distance={property.distance}
-                  isFavorite={property.isFavorite}
-                  isNew={property.isNew}
-                  isSkeleton={property.isSkeleton}
-                  isInteriorIncluded={property.isInteriorIncluded}
-                  variant="default"
-                  details={property.details}
-                />
-              ))}
-            </div>
-          </section>
-        )}
         <section className="space-y-8 lg:space-y-6">
           <Heading level={2}>{areaName}の新着物件ピックアップ</Heading>
           <div className="flex flex-wrap gap-3 gap-y-6 lg:gap-x-[20px]">
@@ -433,6 +407,32 @@ export default function Index() {
             </Button>
           )}
         </section>
+        {featuredProperties?.length > 0 && (
+          <section className="space-y-8 lg:space-y-6">
+            <Heading level={2}>注目物件</Heading>
+            <div className="flex flex-wrap gap-3 gap-y-6 lg:gap-x-[20px]">
+              {featuredProperties.map((property) => (
+                <PropertyCard
+                  key={property.id}
+                  areaSlug={areaSlug}
+                  id={property.id}
+                  image={property.image}
+                  title={property.title}
+                  price={property.price}
+                  address={property.address}
+                  size={property.size}
+                  distance={property.distance}
+                  isFavorite={property.isFavorite}
+                  isNew={property.isNew}
+                  isSkeleton={property.isSkeleton}
+                  isInteriorIncluded={property.isInteriorIncluded}
+                  variant="default"
+                  details={property.details}
+                />
+              ))}
+            </div>
+          </section>
+        )}
       </ContentsLayout>
     </>
   );
