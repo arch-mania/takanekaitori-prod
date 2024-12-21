@@ -131,7 +131,12 @@ export const filterProperties = (property: Property, filters: FilterState) => {
       property.title.toLowerCase().includes(keyword) ||
       property.address.toLowerCase().includes(keyword) ||
       property.stations.some((station) => station.toLowerCase().includes(keyword)) ||
-      property.regions.some((region) => region.toLowerCase().includes(keyword));
+      property.regions.some((region) => region.toLowerCase().includes(keyword)) ||
+      (property.details
+        .find((detail) => detail.label.includes('前業態'))
+        ?.value.toLowerCase()
+        .includes(keyword) ??
+        false);
     if (!matchesKeyword) return false;
   }
 
