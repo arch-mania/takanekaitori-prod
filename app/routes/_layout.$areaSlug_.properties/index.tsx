@@ -317,7 +317,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const regionId = url.searchParams.get('region');
 
   try {
-    const expiredDays = Number(process.env.PROPERTY_EXPIRED_DAYS || 60);
+    const expiredDays = 3650;
     const dateThreshold = new Date();
     dateThreshold.setDate(dateThreshold.getDate() - expiredDays);
     const thresholdDate = dateThreshold.toISOString();

@@ -150,7 +150,7 @@ export const loader: LoaderFunction = async ({ params }) => {
       throw new Response('物件が見つかりません', { status: 404 });
     }
 
-    const expiredDays = Number(process.env.PROPERTY_EXPIRED_DAYS || 60);
+    const expiredDays = 3650;
     const dateThreshold = new Date();
     dateThreshold.setDate(dateThreshold.getDate() - expiredDays);
 
