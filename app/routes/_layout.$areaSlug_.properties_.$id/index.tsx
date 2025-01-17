@@ -395,7 +395,7 @@ export default function PropertyDetail() {
           </div>
         )}
       </div>
-
+      <span className="text-sm">※表記は消費税を含む金額となります。</span>
       {!showContactForm && (
         <Button
           variant="default"
