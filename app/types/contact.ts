@@ -3,6 +3,7 @@ export type ActionErrors = {
   inquiryContent?: string;
   name?: string;
   email?: string;
+  phone?: string;
   message?: string;
   _form?: string;
 };

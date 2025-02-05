@@ -145,8 +145,8 @@ const ContactForm = ({ propertyTitle, propertyId, assignedAgent }: ContactFormPr
         <div className="space-y-2">
           <Label className="block text-sm font-medium">
             電話番号{' '}
-            <span className="inline-flex h-4 items-center justify-center rounded-[2px] bg-[#898989] px-1 text-xs font-medium text-white">
-              任意
+            <span className="inline-flex h-4 items-center justify-center rounded-[2px] bg-[#EF3535] px-1 text-xs font-medium text-white">
+              必須
             </span>
           </Label>
           <Input
@@ -155,6 +155,9 @@ const ContactForm = ({ propertyTitle, propertyId, assignedAgent }: ContactFormPr
             className="w-full border border-gray-300 p-2 text-sm"
             placeholder="090-1234-5678"
           />
+          {actionData?.errors?.phone && (
+            <p className="text-sm text-red-500">{actionData.errors.phone}</p>
+          )}
         </div>
 
         <div className="space-y-2">

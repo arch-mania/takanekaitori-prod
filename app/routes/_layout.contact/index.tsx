@@ -15,6 +15,7 @@ interface FormErrors {
   inquiryType?: string;
   inquiryContent?: string;
   name?: string;
+  phone?: string;
   email?: string;
   message?: string;
   _form?: string;
@@ -70,6 +71,10 @@ function validateForm(data: FormData): FormErrors {
 
   if (!data.name?.trim()) {
     errors.name = ERROR_MESSAGES.REQUIRED;
+  }
+
+  if (!data.phone?.trim()) {
+    errors.phone = ERROR_MESSAGES.REQUIRED;
   }
 
   if (!data.email?.trim()) {
