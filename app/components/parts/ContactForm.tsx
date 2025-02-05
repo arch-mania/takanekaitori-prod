@@ -10,9 +10,15 @@ interface ContactFormProps {
   propertyId?: string;
   propertyTitle?: string;
   assignedAgent?: string;
+  isPhoneRequired?: boolean;
 }
 
-const ContactForm = ({ propertyTitle, propertyId, assignedAgent }: ContactFormProps) => {
+const ContactForm = ({
+  propertyTitle,
+  propertyId,
+  assignedAgent,
+  isPhoneRequired = false,
+}: ContactFormProps) => {
   const actionData = useActionData<ActionData>();
   const navigation = useNavigation();
   const [showOtherInput, setShowOtherInput] = useState(false);
@@ -145,9 +151,15 @@ const ContactForm = ({ propertyTitle, propertyId, assignedAgent }: ContactFormPr
         <div className="space-y-2">
           <Label className="block text-sm font-medium">
             電話番号{' '}
-            <span className="inline-flex h-4 items-center justify-center rounded-[2px] bg-[#EF3535] px-1 text-xs font-medium text-white">
-              必須
-            </span>
+            {isPhoneRequired ? (
+              <span className="inline-flex h-4 items-center justify-center rounded-[2px] bg-[#EF3535] px-1 text-xs font-medium text-white">
+                必須
+              </span>
+            ) : (
+              <span className="inline-flex h-4 items-center justify-center rounded-[2px] bg-[#898989] px-1 text-xs font-medium text-white">
+                任意
+              </span>
+            )}
           </Label>
           <Input
             type="tel"

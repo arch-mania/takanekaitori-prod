@@ -27,6 +27,10 @@ interface SystemError {
   details?: unknown;
 }
 
+interface CustomError extends Error {
+  code?: string;
+}
+
 export const meta: MetaFunction = () => {
   return [
     { title: 'お問い合わせ | 居抜きビュッフェ Presented by 店舗高値買取センター' },
@@ -40,12 +44,13 @@ export const meta: MetaFunction = () => {
 
 function sanitizeError(error: unknown): SystemError {
   if (error instanceof Error) {
+    const customError = error as CustomError;
     return {
-      message: error.message,
-      code: (error as any).code,
+      message: customError.message,
+      code: customError.code,
       details: {
-        name: error.name,
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+        name: customError.name,
+        stack: process.env.NODE_ENV === 'development' ? customError.stack : undefined,
       },
     };
   }
@@ -73,7 +78,8 @@ function validateForm(data: FormData): FormErrors {
     errors.name = ERROR_MESSAGES.REQUIRED;
   }
 
-  if (!data.phone?.trim()) {
+  const isContactPage = true;
+  if (isContactPage && !data.phone?.trim()) {
     errors.phone = ERROR_MESSAGES.REQUIRED;
   }
 
@@ -166,7 +172,7 @@ export default function Contact() {
   return (
     <ContentsLayout className="mx-auto max-w-[950px] space-y-8 py-14 md:space-y-10 md:py-[72px]">
       <h1 className="text-2xl font-bold md:text-[32px]">お問い合わせ</h1>
-      <ContactForm />
+      <ContactForm isPhoneRequired={true} />
     </ContentsLayout>
   );
 }
