@@ -138,8 +138,11 @@ export function Footer({ currentAreaSlug }: FooterProps) {
           </div>
         </div>
       </div>
-      <div className="border-t border-[rbga(255,255,255,0.5)] p-6 text-center">
+      <div className="flex flex-col gap-2 border-t border-[rbga(255,255,255,0.5)] p-6 text-center">
         <span className="text-sm text-white">© 2024 株式会社店舗高値買取センター</span>
+        <span className="text-sm text-white">
+          「居抜きビュッフェ」は、株式会社店舗高値買取センターの登録商標です（登録第6930485号）
+        </span>
       </div>
     </footer>
   );
