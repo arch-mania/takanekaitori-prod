@@ -255,64 +255,30 @@ export default function Index() {
 
   return (
     <>
-      <div className="relative h-[100vw] w-full lg:h-[28vw]">
-        <OptimizedImage
-          src="/firstview-background_sp.png"
-          webpSrc="/firstview-background_sp.webp"
-          className="aspect-square w-full max-w-none object-cover lg:hidden"
-          loading="eager"
-          priority={true}
-          alt=""
-          height={390}
-          width={390}
-        />
-        <OptimizedImage
-          src="/firstview-background_pc.png"
-          webpSrc="/firstview-background_pc.webp"
-          className="hidden w-full max-w-none object-cover lg:block"
-          loading="eager"
-          priority={true}
-          alt=""
-          height={452}
-          width={1440}
-        />
-        <div className="absolute bottom-6 left-1/2 mx-auto min-h-[286px] w-[calc(100%-24px)] max-w-[788px] -translate-x-1/2 translate-y-1/2 space-y-8 rounded-[12px] bg-background px-6 py-8 text-center shadow-[0px_8px_22.6px_-2px_rgba(46,59,79,0.1)] lg:bottom-0 lg:space-y-14">
-          <span className="text-base font-medium lg:text-xl lg:tracking-[0.08em]">
-            飲食店物件をご紹介中！
-            <br className="md:hidden" />
-            随時追加しています！
-          </span>
-          <div className="flex justify-between lg:justify-center">
-            <div className="h-auto w-px bg-[#C9C9C9]" />
-            <div className="w-1/2 space-y-1 lg:w-1/3">
-              <span className="block text-sm lg:text-base">掲載物件数</span>
-              <span className="block text-[32px] font-bold text-[#1ABC9C] lg:text-[40px]">
-                {totalCount.toLocaleString()}
-                <small className="ml-2 text-sm font-normal text-foreground lg:text-base">件</small>
-              </span>
-            </div>
-            <div className="h-auto w-px bg-[#C9C9C9]" />
-            <div className="w-1/2 space-y-1 lg:w-1/3">
-              <span className="block text-sm lg:text-base">新着物件数</span>
-              <span className="block text-[32px] font-bold text-[#1ABC9C] lg:text-[40px]">
-                {newCount.toLocaleString()}
-                <small className="ml-2 text-sm font-normal text-foreground lg:text-base">件</small>
-              </span>
-            </div>
-            <div className="h-auto w-px bg-[#C9C9C9]" />
+      <div className="flex flex-col items-center justify-center gap-y-2 py-4 lg:py-8">
+        <p className="text-center text-base font-bold text-primary lg:text-2xl">
+          居抜きもスケルトンも！
+          <br />
+          ぴったりの飲食店物件が簡単に見つかる！
+        </p>
+        <div className="flex items-center gap-x-4">
+          <div className="flex items-center">
+            <span className="text-xs font-normal text-foreground lg:text-sm">掲載物件数</span>
+            <span className="ml-1 block text-lg font-bold text-[#1ABC9C] lg:text-[22px]">
+              {totalCount.toLocaleString()}
+              <small className="ml-[2px] text-xs font-normal text-foreground lg:text-sm">件</small>
+            </span>
           </div>
-          <Button
-            to={`/${areaSlug}/properties`}
-            size="sm"
-            variant="default"
-            className="!mt-6 lg:!mt-12 lg:w-[220px]"
-          >
-            <img src="/search-icon.svg" alt="検索" />
-            まずは探してみる
-          </Button>
+          <div className="flex items-center">
+            <span className="text-xs font-normal text-foreground lg:text-sm">新着物件数</span>
+            <span className="ml-1 block text-lg font-bold text-[#1ABC9C] lg:text-[22px]">
+              {newCount.toLocaleString()}
+              <small className="ml-[2px] text-xs font-normal text-foreground lg:text-sm">件</small>
+            </span>
+          </div>
         </div>
       </div>
-      <ContentsLayout className="mx-auto mt-[118px] max-w-[950px] space-y-16 pb-20 pt-16 lg:mt-[174px] lg:px-0">
+      <ContentsLayout className="mx-auto max-w-[950px] space-y-16 pb-20 pt-2">
         <section className="space-y-8 lg:space-y-6">
           <Heading level={2}>物件を探す</Heading>
           <div className="flex flex-col space-y-2 lg:!mt-[18px] lg:flex-row lg:items-center lg:gap-x-5">
