@@ -175,11 +175,17 @@ export const loader: LoaderFunction = async ({ params }) => {
       badges.push({ text: '居抜き', variant: 'furnished' });
     }
 
+    const exteriorImageUrls = Array.isArray(fields.exteriorImages)
+      ? fields.exteriorImages
+          .map((image: any) => image?.fields?.file?.url || '')
+          .filter(Boolean)
+      : [];
+
     const images = [
-      ...(fields.exteriorImages?.map((image: any) => image.fields?.file?.url) || [
-        '/propertyImage.png',
-      ]),
-      ...(fields.floorPlan ? [fields.floorPlan.fields?.file?.url] : []),
+      ...(exteriorImageUrls.length > 0 ? exteriorImageUrls : ['/propertyImage.png']),
+      ...(fields.floorPlan && fields.floorPlan.fields?.file?.url
+        ? [fields.floorPlan.fields.file.url]
+        : []),
     ];
 
     const formatFloor = (floors: string[]): string => {
@@ -196,6 +202,16 @@ export const loader: LoaderFunction = async ({ params }) => {
         .join('、');
     };
 
+    const safeAllowedRestaurantTypes = Array.isArray(fields.allowedRestaurantTypes)
+      ? fields.allowedRestaurantTypes
+          .map((type: any) => type?.fields?.name || '')
+          .filter(Boolean)
+      : [];
+
+    const safeCuisineTypes = Array.isArray(fields.cuisineType)
+      ? fields.cuisineType.map((type: any) => type?.fields?.name || '').filter(Boolean)
+      : [];
+
     const property: PropertyDetail = {
       id: entries.sys.id,
       propertyId: fields.propertyId,
@@ -209,9 +225,8 @@ export const loader: LoaderFunction = async ({ params }) => {
       floorArea: fields.floorArea || 0,
       floorAreaTsubo: fields.floorAreaTsubo || 0,
       interiorTransferFee: fields.interiorTransferFee || '-',
-      allowedRestaurantTypes:
-        fields.allowedRestaurantTypes?.map((type: any) => type.fields.name) || [],
-      cuisineTypes: fields.cuisineType?.map((type: any) => type.fields.name) || [],
+      allowedRestaurantTypes: safeAllowedRestaurantTypes,
+      cuisineTypes: safeCuisineTypes,
       notes: fields.notes || '-',
       comment: fields.notes || '-',
       images,
@@ -243,13 +258,12 @@ export const loader: LoaderFunction = async ({ params }) => {
         },
         {
           label: '所在階',
-          value: formatFloor(fields.floors),
+          value: formatFloor(Array.isArray(fields.floors) ? fields.floors : []),
         },
         { label: '造作譲渡料/前テナント', value: fields.interiorTransferFee || '-' },
         {
           label: '出店可能な飲食店の種類',
-          value:
-            fields.allowedRestaurantTypes?.map((type: any) => type.fields.name).join('・') || '-',
+          value: safeAllowedRestaurantTypes.length > 0 ? safeAllowedRestaurantTypes.join('・') : '-',
         },
         { label: '備考', value: fields.notes || '-' },
       ],
