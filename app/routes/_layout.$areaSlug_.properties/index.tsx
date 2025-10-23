@@ -411,7 +411,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
           value: `${item.fields.floorArea || 0}㎡ / ${item.fields.floorAreaTsubo || 0}坪`,
         },
         { label: '所在地', value: item.fields.address || '-' },
-        { label: `前業態\n/希望譲渡額`, value: item.fields.interiorTransferFee || '-' },
+        { label: `希望譲渡額\n/前業態`, value: item.fields.interiorTransferFee || '-' },
       ],
       registrationDate: item.fields.registrationDate
         ? new Date(item.fields.registrationDate).toLocaleDateString('ja-JP')
