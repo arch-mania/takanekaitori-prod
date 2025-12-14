@@ -1,7 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { MetaFunction, LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useLoaderData, useNavigation, useParams, useSearchParams } from '@remix-run/react';
+import {
+  useLoaderData,
+  useNavigation,
+  useParams,
+  useSearchParams,
+  type ShouldRevalidateFunction,
+} from '@remix-run/react';
 import { Entry, EntryCollection } from 'contentful';
 import ContentsLayout from '~/components/layouts/ContentsLayout';
 import { PropertyCard } from '~/components/parts/PropertyCard';
@@ -14,7 +20,18 @@ import { X } from 'lucide-react';
 import { AnimatedNumber } from '~/components/parts/AnimatedNumber';
 import { filterProperties, isNewProperty } from '~/utils/property';
 import { FilterState } from 'types/contentful';
-import { ErrorPage } from '~/components/parts/ErrorPage';
+
+// 同じページ内でのパラメータ変更時はローダーを再実行しない（APIコール削減）
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+  currentUrl,
+  nextUrl,
+  defaultShouldRevalidate,
+}) => {
+  if (currentUrl.pathname === nextUrl.pathname) {
+    return false;
+  }
+  return defaultShouldRevalidate;
+};
 
 interface QueryParams {
   minRent?: string;

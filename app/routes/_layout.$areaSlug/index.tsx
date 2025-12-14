@@ -10,8 +10,7 @@ import { Label } from '~/components/ui/label';
 import { Input } from '~/components/ui/input';
 import { contentfulClient } from '~/lib/contentful.server';
 import { Property, Station } from 'types/contentful';
-import { fetchAllProperties, getNewPropertiesCount, isNewProperty } from '~/utils/property';
-import { OptimizedImage } from '~/components/parts/OptimizedImage';
+import { getNewPropertiesCount, isNewProperty } from '~/utils/property';
 import { ErrorPage } from '~/components/parts/ErrorPage';
 
 interface LoaderData {
@@ -77,24 +76,7 @@ export const loader: LoaderFunction = async ({ params }) => {
       )
       .map((region: { sys: { id: string } }) => region.sys.id);
 
-    const featuredPropertiesEntries = await contentfulClient.getEntries({
-      content_type: 'property',
-      'fields.regions.sys.id[in]': regionIds.join(','),
-      'fields.pickupOrder[exists]': true,
-      'fields.registrationDate[gte]': thresholdDate,
-      order: ['fields.pickupOrder'],
-      include: 2,
-    });
-
-    const propertyEntries = await contentfulClient.getEntries({
-      content_type: 'property',
-      'fields.regions.sys.id[in]': regionIds.join(','),
-      'fields.registrationDate[gte]': thresholdDate,
-      order: ['-sys.createdAt'],
-      limit: 12,
-      include: 2,
-    });
-
+    // 新着物件カウント用クエリ（isNewフラグ OR 48時間以内の登録日）
     const newPropertiesQuery = {
       content_type: 'property',
       'fields.regions.sys.id[in]': regionIds.join(','),
@@ -102,7 +84,33 @@ export const loader: LoaderFunction = async ({ params }) => {
       select: ['sys.id', 'fields.isNew', 'fields.registrationDate'],
     };
 
-    const [stationEntries, totalCount, newCount] = await Promise.all([
+    // 全クエリを並列実行（レスポンス時間短縮）
+    const [
+      featuredPropertiesEntries,
+      propertyEntries,
+      stationEntries,
+      totalCountResponse,
+      newCount,
+    ] = await Promise.all([
+      // 注目物件
+      contentfulClient.getEntries({
+        content_type: 'property',
+        'fields.regions.sys.id[in]': regionIds.join(','),
+        'fields.pickupOrder[exists]': true,
+        'fields.registrationDate[gte]': thresholdDate,
+        order: ['fields.pickupOrder'],
+        include: 2,
+      }),
+      // 新着物件（12件）
+      contentfulClient.getEntries({
+        content_type: 'property',
+        'fields.regions.sys.id[in]': regionIds.join(','),
+        'fields.registrationDate[gte]': thresholdDate,
+        order: ['-sys.createdAt'],
+        limit: 12,
+        include: 2,
+      }),
+      // 人気の駅
       contentfulClient.getEntries({
         content_type: 'station',
         'fields.area.sys.id': areaId,
@@ -110,14 +118,19 @@ export const loader: LoaderFunction = async ({ params }) => {
         'fields.popularityOrder[gt]': 0,
         order: ['fields.popularityOrder'],
       }),
-      fetchAllProperties(contentfulClient, {
+      // 総物件数（totalプロパティ使用）
+      contentfulClient.getEntries({
         content_type: 'property',
         'fields.regions.sys.id[in]': regionIds.join(','),
         'fields.registrationDate[gte]': thresholdDate,
         select: ['sys.id'],
-      }).then((items) => items.length),
+        limit: 1,
+      }),
+      // 新着物件数（isNew=true OR 48時間以内）
       getNewPropertiesCount(contentfulClient, newPropertiesQuery),
     ]);
+
+    const totalCount = totalCountResponse.total;
 
     const mapPropertyData = (item: any) => {
       const fields = item.fields;
