@@ -48,7 +48,7 @@ interface QueryParams {
   multiFloorWithFirst?: string;
   multiFloorWithoutFirst?: string;
   regions?: string;
-  stations?: string;
+  cuisineTypes?: string;
   restaurantTypes?: string;
   keyword?: string;
   walkingTime?: string;
@@ -71,7 +71,7 @@ const filtersToQueryParams = (filters: FilterState, page: number): QueryParams =
     multiFloorWithFirst: filters.floors.multiFloorWithFirst ? 'true' : undefined,
     multiFloorWithoutFirst: filters.floors.multiFloorWithoutFirst ? 'true' : undefined,
     regions: filters.regions.length > 0 ? filters.regions.join(',') : undefined,
-    stations: filters.stations.length > 0 ? filters.stations.join(',') : undefined,
+    cuisineTypes: filters.cuisineTypes.length > 0 ? filters.cuisineTypes.join(',') : undefined,
     restaurantTypes:
       filters.allowedRestaurantTypes.length > 0
         ? filters.allowedRestaurantTypes.join(',')
@@ -92,7 +92,7 @@ const filtersToQueryParams = (filters: FilterState, page: number): QueryParams =
 
 const queryParamsToFilters = (searchParams: URLSearchParams, initialFilters: any): FilterState => {
   const regions = searchParams.get('regions')?.split(',');
-  const stations = searchParams.get('stations')?.split(',');
+  const cuisineTypes = searchParams.get('cuisineTypes')?.split(',');
   const restaurantTypes = searchParams.get('restaurantTypes')?.split(',');
 
   return {
@@ -113,9 +113,7 @@ const queryParamsToFilters = (searchParams: URLSearchParams, initialFilters: any
     },
     regions:
       regions || (initialFilters.selectedRegion?.name ? [initialFilters.selectedRegion.name] : []),
-    stations:
-      stations ||
-      (initialFilters.selectedStation?.name ? [initialFilters.selectedStation.name] : []),
+    cuisineTypes: cuisineTypes || [],
     allowedRestaurantTypes: restaurantTypes || [],
     keyword: searchParams.get('keyword') || initialFilters.keyword || '',
     walkingTime: searchParams.get('walkingTime') || '指定なし',
@@ -279,7 +277,7 @@ interface Property {
   title: string;
   propertyId: string;
   regions: string[];
-  stations: string[];
+  cuisineTypes: string[];
   address: string;
   rent: number;
   floorArea: number;
@@ -297,10 +295,10 @@ interface Property {
   registrationDate: string;
 }
 
-interface Station {
+interface CuisineType {
   id: string;
   name: string;
-  popularityOrder: number;
+  order?: number;
 }
 
 interface Region {
@@ -315,12 +313,11 @@ interface Region {
 
 interface LoaderData {
   properties: Property[];
-  stations: Station[];
+  cuisineTypes: CuisineType[];
   regions: Region[];
   restaurantTypes: Array<{ id: string; name: string }>;
   areaName: string;
   initialFilters: {
-    selectedStation?: { id: string; name: string };
     selectedRegion?: { id: string; name: string };
     keyword?: string;
   };
@@ -329,7 +326,6 @@ interface LoaderData {
 export const loader: LoaderFunction = async ({ params, request }) => {
   const { areaSlug } = params;
   const url = new URL(request.url);
-  const stationId = url.searchParams.get('station');
   const keyword = url.searchParams.get('keyword');
   const regionId = url.searchParams.get('region');
 
@@ -339,14 +335,11 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     dateThreshold.setDate(dateThreshold.getDate() - expiredDays);
     const thresholdDate = dateThreshold.toISOString();
 
-    const [areaEntry, stationEntry] = await Promise.all([
-      contentfulClient.getEntries({
-        content_type: 'area',
-        'fields.slug': areaSlug,
-        limit: 1,
-      }),
-      stationId ? contentfulClient.getEntry(stationId) : Promise.resolve(null),
-    ]);
+    const areaEntry = await contentfulClient.getEntries({
+      content_type: 'area',
+      'fields.slug': areaSlug,
+      limit: 1,
+    });
 
     const area = areaEntry.items[0];
     if (!area) {
@@ -365,7 +358,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
     const regionIds = regionsInArea.items.map((region) => region.sys.id);
 
-    const [propertyEntries, stationsInArea, restaurantTypeEntries] = await Promise.all([
+    const [propertyEntries, cuisineTypeEntries, restaurantTypeEntries] = await Promise.all([
       getAllEntries({
         content_type: 'property',
         'fields.regions.sys.id[in]': regionIds.join(','),
@@ -374,9 +367,8 @@ export const loader: LoaderFunction = async ({ params, request }) => {
         include: 2,
       }),
       contentfulClient.getEntries({
-        content_type: 'station',
-        'fields.area.sys.id': areaId,
-        order: ['fields.popularityOrder'],
+        content_type: 'cuisineType',
+        order: ['fields.order'],
       }),
       contentfulClient.getEntries({
         content_type: 'restaurantType',
@@ -390,9 +382,9 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       propertyId: item.fields.propertyId || '',
       regions:
         item.fields.regions?.map((region: any) => region?.fields?.name || '').filter(Boolean) || [],
-      stations:
-        item.fields.stationsName
-          ?.map((station: any) => station?.fields?.name || '')
+      cuisineTypes:
+        item.fields.cuisineType
+          ?.map((type: any) => type?.fields?.name || '')
           .filter(Boolean) || [],
       address: item.fields.address || '',
       rent: item.fields.rent || 0,
@@ -435,10 +427,10 @@ export const loader: LoaderFunction = async ({ params, request }) => {
         : new Date(item.sys.createdAt).toLocaleDateString('ja-JP'),
     }));
 
-    const stations = stationsInArea.items.map((item: any) => ({
+    const cuisineTypes = cuisineTypeEntries.items.map((item: any) => ({
       id: item.sys.id,
       name: item.fields.name,
-      popularityOrder: item.fields.popularityOrder,
+      order: item.fields.order,
     }));
 
     const regions = regionsInArea.items.map((item: any) => ({
@@ -451,13 +443,6 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       id: item.sys.id,
       name: item.fields.name,
     }));
-
-    const selectedStation = stationEntry
-      ? {
-          id: stationEntry.sys.id,
-          name: stationEntry.fields.name,
-        }
-      : undefined;
 
     let selectedRegion = undefined;
     if (regionId) {
@@ -472,13 +457,12 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
     return json<LoaderData>({
       properties,
-      stations,
+      cuisineTypes,
       regions,
       restaurantTypes,
       areaName,
       placeholder,
       initialFilters: {
-        selectedStation,
         selectedRegion,
         keyword,
       },
@@ -549,9 +533,12 @@ const CurrentFilters: React.FC<{ filters: FilterState }> = ({ filters }) => {
       conditions.push(`面積：${areaRange.join('')}`);
     }
 
-    const locations = [...filters.regions, ...filters.stations];
-    if (locations.length > 0) {
-      conditions.push(`エリア：${locations.join('・')}`);
+    if (filters.regions.length > 0) {
+      conditions.push(`エリア：${filters.regions.join('・')}`);
+    }
+
+    if (filters.cuisineTypes.length > 0) {
+      conditions.push(`おすすめ業態：${filters.cuisineTypes.join('・')}`);
     }
 
     if (filters.walkingTime !== '指定なし') {
@@ -613,7 +600,7 @@ export default function Search() {
   const isDesktop = useMediaQuery('(min-width: 1024px)');
   const navigation = useNavigation();
   const isLoading = navigation.state === 'loading';
-  const { properties, regions, stations, restaurantTypes, initialFilters, areaName, placeholder } =
+  const { properties, regions, cuisineTypes, restaurantTypes, initialFilters, areaName, placeholder } =
     useLoaderData<typeof loader>();
 
   const [currentPage, setCurrentPage] = useState(() => {
@@ -718,7 +705,7 @@ export default function Search() {
               isInitialLoad={isInitialLoad}
               filters={filters}
               regions={regions}
-              stations={stations}
+              cuisineTypes={cuisineTypes}
               restaurantTypes={restaurantTypes}
               displayCount={displayCount}
               inputValue={inputValue}
@@ -738,7 +725,7 @@ export default function Search() {
               isInitialLoad={isInitialLoad}
               filters={filters}
               regions={regions}
-              stations={stations}
+              cuisineTypes={cuisineTypes}
               restaurantTypes={restaurantTypes}
               displayCount={displayCount}
               inputValue={inputValue}

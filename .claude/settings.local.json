@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run lint:*)"
+      "Bash(npm run lint:*)",
+      "Bash(node find-unlinked-assets.js:*)",
+      "Bash(cat:*)",
+      "Bash(node -e:*)",
+      "Bash(test:*)",
+      "Bash(npm run lint:ts:*)",
+      "Bash(npm run:*)"
     ]
   }
 }

@@ -265,6 +265,10 @@ export const loader: LoaderFunction = async ({ params }) => {
           label: '出店可能な飲食店の種類',
           value: safeAllowedRestaurantTypes.length > 0 ? safeAllowedRestaurantTypes.join('・') : '-',
         },
+        {
+          label: 'おすすめ業態',
+          value: safeCuisineTypes.length > 0 ? safeCuisineTypes.join('・') : '-',
+        },
         { label: '備考', value: fields.notes || '-' },
       ],
     };

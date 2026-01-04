@@ -96,10 +96,16 @@ export const filterProperties = (property: Property, filters: FilterState) => {
     if (!matchesAnyStatus) return false;
   }
 
-  if (filters.regions.length > 0 || filters.stations.length > 0) {
+  if (filters.regions.length > 0) {
     const matchesRegion = property.regions.some((region) => filters.regions.includes(region));
-    const matchesStation = property.stations.some((station) => filters.stations.includes(station));
-    if (!matchesRegion && !matchesStation) return false;
+    if (!matchesRegion) return false;
+  }
+
+  if (filters.cuisineTypes.length > 0) {
+    const matchesCuisineType = property.cuisineTypes.some((type) =>
+      filters.cuisineTypes.includes(type)
+    );
+    if (!matchesCuisineType) return false;
   }
 
   if (
@@ -126,18 +132,28 @@ export const filterProperties = (property: Property, filters: FilterState) => {
   }
 
   if (filters.keyword) {
-    const keyword = filters.keyword.toLowerCase();
-    const matchesKeyword =
-      property.title.toLowerCase().includes(keyword) ||
-      property.address.toLowerCase().includes(keyword) ||
-      property.stations.some((station) => station.toLowerCase().includes(keyword)) ||
-      property.regions.some((region) => region.toLowerCase().includes(keyword)) ||
-      (property.details
-        .find((detail) => detail.label.includes('前業態'))
-        ?.value.toLowerCase()
-        .includes(keyword) ??
-        false);
-    if (!matchesKeyword) return false;
+    // スペースで分割して複数キーワードに対応（全角・半角スペース両方）
+    const keywords = filters.keyword
+      .toLowerCase()
+      .split(/[\s\u3000]+/)
+      .filter((k) => k.length > 0);
+
+    // 全てのキーワードがマッチする必要がある（AND検索）
+    const matchesAllKeywords = keywords.every((keyword) => {
+      return (
+        property.title.toLowerCase().includes(keyword) ||
+        property.address.toLowerCase().includes(keyword) ||
+        property.cuisineTypes.some((type) => type.toLowerCase().includes(keyword)) ||
+        property.regions.some((region) => region.toLowerCase().includes(keyword)) ||
+        (property.details
+          .find((detail) => detail.label.includes('前業態'))
+          ?.value.toLowerCase()
+          .includes(keyword) ??
+          false)
+      );
+    });
+
+    if (!matchesAllKeywords) return false;
   }
 
   if (filters.walkingTime !== '指定なし') {

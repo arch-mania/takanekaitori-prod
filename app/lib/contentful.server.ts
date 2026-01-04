@@ -16,7 +16,7 @@ const propertyCache = new LRUCache<string, any>({
 });
 
 // マスターデータのcontent_type
-const MASTER_CONTENT_TYPES = ['area', 'region', 'station', 'restaurantType'];
+const MASTER_CONTENT_TYPES = ['area', 'region', 'cuisineType', 'restaurantType'];
 
 const baseClient = createClient({
   space: process.env.CONTENTFUL_SPACE_ID as string,

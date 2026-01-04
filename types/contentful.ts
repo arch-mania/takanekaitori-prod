@@ -58,26 +58,11 @@ export interface Property {
   regions?: Region[];
 }
 
-// Station Related Types
-export interface StationFields {
-  name: string;
-  popularityOrder: number;
-  area?: {
-    fields: {
-      name: string;
-    };
-  };
-}
-
-export interface Station {
+// CuisineType Related Types
+export interface CuisineType {
   id: string;
   name: string;
-  popularityOrder: number;
-  area: {
-    fields: {
-      name: string;
-    };
-  };
+  order?: number;
 }
 
 // Property Detail Types
@@ -114,7 +99,7 @@ export interface PropertyDetailItem {
 // Loader Data Interface
 export interface LoaderData {
   properties: Property[];
-  popularStations: Station[];
+  cuisineTypes: CuisineType[];
   totalCount: number;
   newCount: number;
   areaName: string;
@@ -135,6 +120,7 @@ export interface FilterState {
   isInteriorIncluded: boolean;
   isNew: boolean;
   floors: {
+    [key: string]: boolean;
     basement: boolean;
     first: boolean;
     second: boolean;
@@ -143,7 +129,7 @@ export interface FilterState {
     multiFloorWithoutFirst: boolean;
   };
   regions: string[];
-  stations: string[];
+  cuisineTypes: string[];
   allowedRestaurantTypes: string[];
   keyword: string;
   walkingTime: string;

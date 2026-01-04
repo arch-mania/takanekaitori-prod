@@ -9,14 +9,14 @@ import Heading from '~/components/ui/heading';
 import { Label } from '~/components/ui/label';
 import { Input } from '~/components/ui/input';
 import { contentfulClient } from '~/lib/contentful.server';
-import { Property, Station } from 'types/contentful';
+import { Property, CuisineType } from 'types/contentful';
 import { getNewPropertiesCount, isNewProperty } from '~/utils/property';
 import { ErrorPage } from '~/components/parts/ErrorPage';
 
 interface LoaderData {
   properties: Property[];
   featuredProperties: Property[];
-  popularStations: Station[];
+  cuisineTypes: CuisineType[];
   totalCount: number;
   newCount: number;
   areaName: string;
@@ -88,7 +88,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     const [
       featuredPropertiesEntries,
       propertyEntries,
-      stationEntries,
+      cuisineTypeEntries,
       totalCountResponse,
       newCount,
     ] = await Promise.all([
@@ -110,13 +110,10 @@ export const loader: LoaderFunction = async ({ params }) => {
         limit: 12,
         include: 2,
       }),
-      // 人気の駅
+      // おすすめ業態
       contentfulClient.getEntries({
-        content_type: 'station',
-        'fields.area.sys.id': areaId,
-        'fields.popularityOrder[exists]': true,
-        'fields.popularityOrder[gt]': 0,
-        order: ['fields.popularityOrder'],
+        content_type: 'cuisineType',
+        order: ['fields.order'],
       }),
       // 総物件数（totalプロパティ使用）
       contentfulClient.getEntries({
@@ -176,21 +173,16 @@ export const loader: LoaderFunction = async ({ params }) => {
 
     const properties = propertyEntries.items.map(mapPropertyData);
     const featuredProperties = featuredPropertiesEntries.items.map(mapPropertyData);
-    const popularStations = stationEntries.items.map((item) => ({
+    const cuisineTypes = cuisineTypeEntries.items.map((item: any) => ({
       id: item.sys.id,
       name: item.fields.name,
-      popularityOrder: item.fields.popularityOrder,
-      area: {
-        fields: {
-          name: item.fields.area?.fields?.name || '',
-        },
-      },
+      order: item.fields.order,
     }));
 
     return json<LoaderData>({
       properties,
       featuredProperties,
-      popularStations,
+      cuisineTypes,
       totalCount,
       newCount,
       areaName: String(areaName || ''),
@@ -205,7 +197,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     return json<LoaderData>({
       properties: [],
       featuredProperties: [],
-      popularStations: [],
+      cuisineTypes: [],
       totalCount: 0,
       newCount: 0,
       areaName: '',
@@ -231,7 +223,7 @@ export default function Index() {
   const {
     properties,
     featuredProperties,
-    popularStations,
+    cuisineTypes,
     totalCount,
     newCount,
     areaName,
@@ -333,16 +325,16 @@ export default function Index() {
             </div>
           </div>
           <div className="flex flex-col space-y-2 lg:!mt-10 lg:flex-row lg:items-start lg:gap-x-5">
-            <Label className="lg:w-[220px] lg:p-[10px]">いま人気の駅</Label>
+            <Label className="lg:w-[220px] lg:p-[10px]">おすすめ業態</Label>
             <div className="flex flex-wrap items-center gap-3 lg:w-[calc(100%-240px)] lg:gap-4">
-              {popularStations.map((station) => (
+              {cuisineTypes.map((cuisineType) => (
                 <Button
-                  key={station.id}
-                  to={`/${areaSlug}/properties?station=${station.id}`}
+                  key={cuisineType.id}
+                  to={`/${areaSlug}/properties?cuisineTypes=${encodeURIComponent(cuisineType.name)}`}
                   variant="tertiary"
                   size="xs"
                 >
-                  {station.name}
+                  {cuisineType.name}
                 </Button>
               ))}
             </div>

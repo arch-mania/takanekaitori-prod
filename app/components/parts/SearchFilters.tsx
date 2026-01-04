@@ -18,30 +18,7 @@ import {
   FLOOR_LABELS,
 } from '~/constants/searchFilters';
 import { AnimatedNumber } from './AnimatedNumber';
-
-interface FilterState {
-  minRent: string;
-  maxRent: string;
-  minArea: string;
-  maxArea: string;
-  isSkeleton: boolean;
-  isInteriorIncluded: boolean;
-  isNew: boolean;
-  floors: {
-    [key: string]: boolean;
-    basement: boolean;
-    first: boolean;
-    second: boolean;
-    thirdAndAbove: boolean;
-    multiFloorWithFirst: boolean;
-    multiFloorWithoutFirst: boolean;
-  };
-  regions: string[];
-  stations: string[];
-  allowedRestaurantTypes: string[];
-  keyword: string;
-  walkingTime: string;
-}
+import type { FilterState, CuisineType } from 'types/contentful';
 
 interface Region {
   id: string;
@@ -53,17 +30,11 @@ interface Region {
   };
 }
 
-interface Station {
-  id: string;
-  name: string;
-  popularityOrder: number;
-}
-
 interface SearchFiltersProps {
   isInitialLoad: boolean;
   filters: FilterState;
   regions: Region[];
-  stations: Station[];
+  cuisineTypes: CuisineType[];
   restaurantTypes: Array<{ id: string; name: string }>;
   displayCount: number;
   inputValue: string;
@@ -201,12 +172,10 @@ const FloorFilters = ({
 
 const LocationFilters = ({
   regions,
-  stations,
   filters,
   onFilterChange,
 }: {
   regions: Region[];
-  stations: Station[];
   filters: FilterState;
   onFilterChange: (name: string, value: string[]) => void;
 }) => (
@@ -230,25 +199,6 @@ const LocationFilters = ({
           </Label>
         </div>
       ))}
-      {stations
-        .sort((a, b) => (a.popularityOrder || 0) - (b.popularityOrder || 0))
-        .map((station) => (
-          <div key={station.id} className="flex items-center space-x-2">
-            <Checkbox
-              id={`station-${station.id}`}
-              checked={filters.stations.includes(station.name)}
-              onCheckedChange={(checked) => {
-                const newStations = checked
-                  ? [...filters.stations, station.name]
-                  : filters.stations.filter((s) => s !== station.name);
-                onFilterChange('stations', newStations);
-              }}
-            />
-            <Label htmlFor={`station-${station.id}`} variant="filter">
-              {station.name}
-            </Label>
-          </div>
-        ))}
     </div>
   </div>
 );
@@ -284,10 +234,41 @@ const RestaurantTypeFilters = ({
   </div>
 );
 
+const CuisineTypeFilters = ({
+  cuisineTypes,
+  filters,
+  onFilterChange,
+}: {
+  cuisineTypes: CuisineType[];
+  filters: FilterState;
+  onFilterChange: (name: string, value: string[]) => void;
+}) => (
+  <div className="space-y-2">
+    <Label>おすすめ業態</Label>
+    {cuisineTypes.map((type) => (
+      <div key={type.id} className="flex items-center space-x-2">
+        <Checkbox
+          id={`cuisine-${type.id}`}
+          checked={filters.cuisineTypes.includes(type.name)}
+          onCheckedChange={(checked) => {
+            const newTypes = checked
+              ? [...filters.cuisineTypes, type.name]
+              : filters.cuisineTypes.filter((t) => t !== type.name);
+            onFilterChange('cuisineTypes', newTypes);
+          }}
+        />
+        <Label htmlFor={`cuisine-${type.id}`} variant="filter">
+          {type.name}
+        </Label>
+      </div>
+    ))}
+  </div>
+);
+
 export const SearchFilters: React.FC<SearchFiltersProps> = ({
   filters,
   regions,
-  stations,
+  cuisineTypes,
   restaurantTypes,
   displayCount,
   inputValue,
@@ -343,13 +324,18 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
 
       <LocationFilters
         regions={regions}
-        stations={stations}
         filters={filters}
         onFilterChange={onFilterChange}
       />
 
       <RestaurantTypeFilters
         restaurantTypes={restaurantTypes}
+        filters={filters}
+        onFilterChange={onFilterChange}
+      />
+
+      <CuisineTypeFilters
+        cuisineTypes={cuisineTypes}
         filters={filters}
         onFilterChange={onFilterChange}
       />
