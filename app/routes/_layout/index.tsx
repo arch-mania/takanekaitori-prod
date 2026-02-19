@@ -2,6 +2,7 @@ import { Outlet, useLoaderData, useParams, useNavigation } from '@remix-run/reac
 import type { LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { contentfulClient } from '~/lib/contentful.server';
+import { guardAgainstBadBots } from '~/lib/bot-guard.server';
 import { Header } from '~/components/layouts/Header';
 import { Footer } from '~/components/layouts/Footer';
 import { useState, useEffect } from 'react';
@@ -92,7 +93,8 @@ const fetchAreas = async (): Promise<Area[]> => {
   }));
 };
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  guardAgainstBadBots(request);
   try {
     const areas = await fetchAreas();
     return json<LoaderData>({ areas });

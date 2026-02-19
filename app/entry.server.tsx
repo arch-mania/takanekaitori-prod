@@ -24,7 +24,15 @@ export default function handleRequest(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   loadContext: AppLoadContext
 ) {
-  return isbot(request.headers.get("user-agent") || "")
+  const userAgent = request.headers.get("user-agent") || "";
+  const isBotRequest = isbot(userAgent);
+
+  if (isBotRequest) {
+    const url = new URL(request.url);
+    console.log(`[BOT] ${url.pathname} | UA: ${userAgent.slice(0, 120)}`);
+  }
+
+  return isBotRequest
     ? handleBotRequest(
         request,
         responseStatusCode,

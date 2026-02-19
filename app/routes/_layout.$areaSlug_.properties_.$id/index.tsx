@@ -13,6 +13,7 @@ import { contentfulClient } from '~/lib/contentful.server';
 import { saveContactForm } from '~/services/contact.server';
 import { isNewProperty } from '~/utils/property';
 import { ErrorPage } from '~/components/parts/ErrorPage';
+import { guardAgainstBadBots } from '~/lib/bot-guard.server';
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   if (!data) {
@@ -140,7 +141,8 @@ export const action: ActionFunction = async ({ request }) => {
   }
 };
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
+  guardAgainstBadBots(request);
   try {
     const entries = await contentfulClient.getEntry(params.id as string, {
       include: 2,

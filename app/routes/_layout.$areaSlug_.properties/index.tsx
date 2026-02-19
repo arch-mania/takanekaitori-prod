@@ -16,6 +16,7 @@ import { Skeleton } from '~/components/ui/skeleton';
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '~/components/ui/sheet';
 import { SearchFilters } from '~/components/parts/SearchFilters';
 import { contentfulClient } from '~/lib/contentful.server';
+import { guardAgainstBadBots } from '~/lib/bot-guard.server';
 import { X } from 'lucide-react';
 import { AnimatedNumber } from '~/components/parts/AnimatedNumber';
 import { filterProperties, isNewProperty } from '~/utils/property';
@@ -324,6 +325,7 @@ interface LoaderData {
 }
 
 export const loader: LoaderFunction = async ({ params, request }) => {
+  guardAgainstBadBots(request);
   const { areaSlug } = params;
   const url = new URL(request.url);
   const keyword = url.searchParams.get('keyword');

@@ -12,6 +12,7 @@ import { contentfulClient } from '~/lib/contentful.server';
 import { Property, CuisineType } from 'types/contentful';
 import { getNewPropertiesCount, isNewProperty } from '~/utils/property';
 import { ErrorPage } from '~/components/parts/ErrorPage';
+import { guardAgainstBadBots } from '~/lib/bot-guard.server';
 
 interface LoaderData {
   properties: Property[];
@@ -28,7 +29,8 @@ interface LoaderData {
   }[];
 }
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
+  guardAgainstBadBots(request);
   const { areaSlug } = params;
 
   try {
