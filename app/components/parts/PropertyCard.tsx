@@ -37,7 +37,7 @@ const DefaultCard: React.FC<PropertyCardProps> = ({
   isInteriorIncluded,
 }) => (
   <Card className="w-[calc((100%-12px)/2)] overflow-hidden lg:w-[calc((100%-40px)/3)]">
-    <Link to={`/${areaSlug}/properties/${id}`} prefetch="render">
+    <Link to={`/${areaSlug}/properties/${id}`}>
       <img
         src={image}
         alt=""
@@ -89,7 +89,7 @@ const DetailedCard: React.FC<PropertyCardProps> = ({
   registrationDate,
 }) => (
   <Card className="overflow-hidden">
-    <Link to={`/${areaSlug}/properties/${id}`} prefetch="render">
+    <Link to={`/${areaSlug}/properties/${id}`}>
       <CardContent className="space-y-3 p-3">
         <div className="space-y-3">
           <div className="space-x-3">

@@ -1,6 +1,19 @@
 import contentfulManagement from 'contentful-management'
 const { createClient } = contentfulManagement
 
+const isExecuteMode = process.argv.includes('--execute')
+const isDryRun = !isExecuteMode
+
+if (isExecuteMode && process.env.CONFIRM_CONTENTFUL_WRITE !== 'true') {
+  console.error('Set CONFIRM_CONTENTFUL_WRITE=true with --execute to run this destructive script.')
+  process.exit(1)
+}
+
+if (!process.env.CONTENTFUL_ACCESS_TOKEN) {
+  console.error('CONTENTFUL_ACCESS_TOKEN is required.')
+  process.exit(1)
+}
+
 const client = createClient({
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
 })
@@ -28,6 +41,11 @@ async function retryOperation(operation, retries = MAX_RETRIES) {
 
 async function deleteContentTypeAndEntries() {
   try {
+    console.log(`[MODE] ${isDryRun ? 'DRY-RUN' : 'EXECUTE'}`)
+    if (isDryRun) {
+      console.log('No write operations will be executed. Use --execute to apply changes.')
+    }
+
     const space = await client.getSpace('c5ll46t87s6s')
     const environment = await space.getEnvironment('master')
 
@@ -41,6 +59,12 @@ async function deleteContentTypeAndEntries() {
     for (let i = 0; i < entries.items.length; i += BATCH_SIZE) {
       const batch = entries.items.slice(i, i + BATCH_SIZE)
       for (const entry of batch) {
+        if (isDryRun) {
+          console.log(
+            `[DRY-RUN] Would ${entry.sys.publishedVersion ? 'unpublish + delete' : 'delete'} entry ${entry.sys.id}`
+          )
+          continue
+        }
         await retryOperation(async () => {
           if (entry.sys.publishedVersion) {
             await entry.unpublish()
@@ -56,14 +80,18 @@ async function deleteContentTypeAndEntries() {
     }
 
     // Delete the content type
-    await retryOperation(async () => {
-      const contentType = await environment.getContentType('property')
-      if (contentType.sys.publishedVersion) {
-        await contentType.unpublish()
-      }
-      await contentType.delete()
-      console.log('Deleted property content type')
-    })
+    if (isDryRun) {
+      console.log('[DRY-RUN] Would unpublish/delete content type: property')
+    } else {
+      await retryOperation(async () => {
+        const contentType = await environment.getContentType('property')
+        if (contentType.sys.publishedVersion) {
+          await contentType.unpublish()
+        }
+        await contentType.delete()
+        console.log('Deleted property content type')
+      })
+    }
 
   } catch (error) {
     console.error('Error:', error)

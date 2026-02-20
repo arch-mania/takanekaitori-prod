@@ -1,6 +1,19 @@
 import contentfulManagement from 'contentful-management';
 const { createClient } = contentfulManagement;
 
+const isExecuteMode = process.argv.includes('--execute');
+const isDryRun = !isExecuteMode;
+
+if (isExecuteMode && process.env.CONFIRM_CONTENTFUL_WRITE !== 'true') {
+  console.error('Set CONFIRM_CONTENTFUL_WRITE=true with --execute to run this write script.');
+  process.exit(1);
+}
+
+if (!process.env.CONTENTFUL_ACCESS_TOKEN) {
+  console.error('CONTENTFUL_ACCESS_TOKEN is required.');
+  process.exit(1);
+}
+
 const client = createClient({
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
 });
@@ -28,6 +41,11 @@ async function retryOperation(operation, retries = MAX_RETRIES) {
 
 async function publishAllEntries() {
   try {
+    console.log(`[MODE] ${isDryRun ? 'DRY-RUN' : 'EXECUTE'}`);
+    if (isDryRun) {
+      console.log('No write operations will be executed. Use --execute to apply changes.');
+    }
+
     const space = await client.getSpace('c5ll46t87s6s');
     const environment = await space.getEnvironment('master');
 
@@ -64,6 +82,10 @@ async function publishAllEntries() {
 
       for (const entry of batch) {
         try {
+          if (isDryRun) {
+            console.log(`[DRY-RUN] Would publish entry ${entry.sys.id}`);
+            continue;
+          }
           await retryOperation(async () => {
             await entry.publish();
             console.log(`Published entry ${entry.sys.id}`);

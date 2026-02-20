@@ -10,7 +10,7 @@ import { Label } from '~/components/ui/label';
 import { Input } from '~/components/ui/input';
 import { contentfulClient } from '~/lib/contentful.server';
 import { Property, CuisineType } from 'types/contentful';
-import { getNewPropertiesCount, isNewProperty } from '~/utils/property';
+import { NEW_PROPERTY_THRESHOLD, isNewProperty } from '~/utils/property';
 import { ErrorPage } from '~/components/parts/ErrorPage';
 import { guardAgainstBadBots } from '~/lib/bot-guard.server';
 
@@ -21,6 +21,7 @@ interface LoaderData {
   totalCount: number;
   newCount: number;
   areaName: string;
+  placeholder: string;
   searchRegions: {
     id: string;
     name: string;
@@ -32,12 +33,14 @@ interface LoaderData {
 export const loader: LoaderFunction = async ({ params, request }) => {
   guardAgainstBadBots(request);
   const { areaSlug } = params;
+  const cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=300';
 
   try {
     const expiredDays = 3650;
     const dateThreshold = new Date();
     dateThreshold.setDate(dateThreshold.getDate() - expiredDays);
     const thresholdDate = dateThreshold.toISOString();
+    const newEntryThresholdDate = new Date(Date.now() - NEW_PROPERTY_THRESHOLD).toISOString();
 
     const areaEntry = await contentfulClient.getEntries({
       content_type: 'area',
@@ -78,21 +81,14 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       )
       .map((region: { sys: { id: string } }) => region.sys.id);
 
-    // 新着物件カウント用クエリ（isNewフラグ OR 48時間以内の登録日）
-    const newPropertiesQuery = {
-      content_type: 'property',
-      'fields.regions.sys.id[in]': regionIds.join(','),
-      'fields.registrationDate[gte]': thresholdDate,
-      select: ['sys.id', 'fields.isNew', 'fields.registrationDate'],
-    };
-
     // 全クエリを並列実行（レスポンス時間短縮）
     const [
       featuredPropertiesEntries,
       propertyEntries,
       cuisineTypeEntries,
       totalCountResponse,
-      newCount,
+      isNewCountResponse,
+      recentRegistrationCountResponse,
     ] = await Promise.all([
       // 注目物件
       contentfulClient.getEntries({
@@ -125,11 +121,28 @@ export const loader: LoaderFunction = async ({ params, request }) => {
         select: ['sys.id'],
         limit: 1,
       }),
-      // 新着物件数（isNew=true OR 48時間以内）
-      getNewPropertiesCount(contentfulClient, newPropertiesQuery),
+      // 新着物件数1: isNew=true
+      contentfulClient.getEntries({
+        content_type: 'property',
+        'fields.regions.sys.id[in]': regionIds.join(','),
+        'fields.registrationDate[gte]': thresholdDate,
+        'fields.isNew': true,
+        select: ['sys.id'],
+        limit: 1,
+      }),
+      // 新着物件数2: 48時間以内の登録（isNew=trueを除外）
+      contentfulClient.getEntries({
+        content_type: 'property',
+        'fields.regions.sys.id[in]': regionIds.join(','),
+        'fields.registrationDate[gte]': newEntryThresholdDate,
+        'fields.isNew[ne]': true,
+        select: ['sys.id'],
+        limit: 1,
+      }),
     ]);
 
     const totalCount = totalCountResponse.total;
+    const newCount = isNewCountResponse.total + recentRegistrationCountResponse.total;
 
     const mapPropertyData = (item: any) => {
       const fields = item.fields;
@@ -181,31 +194,45 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       order: item.fields.order,
     }));
 
-    return json<LoaderData>({
-      properties,
-      featuredProperties,
-      cuisineTypes,
-      totalCount,
-      newCount,
-      areaName: String(areaName || ''),
-      placeholder,
-      searchRegions,
-    });
+    return json<LoaderData>(
+      {
+        properties,
+        featuredProperties,
+        cuisineTypes,
+        totalCount,
+        newCount,
+        areaName: String(areaName || ''),
+        placeholder,
+        searchRegions,
+      },
+      {
+        headers: {
+          'Cache-Control': cacheControl,
+        },
+      }
+    );
   } catch (error) {
     console.error('Contentful fetch error:', error);
     if (error instanceof Response) {
       throw error;
     }
-    return json<LoaderData>({
-      properties: [],
-      featuredProperties: [],
-      cuisineTypes: [],
-      totalCount: 0,
-      newCount: 0,
-      areaName: '',
-      placeholder: '',
-      searchRegions: [],
-    });
+    return json<LoaderData>(
+      {
+        properties: [],
+        featuredProperties: [],
+        cuisineTypes: [],
+        totalCount: 0,
+        newCount: 0,
+        areaName: '',
+        placeholder: '',
+        searchRegions: [],
+      },
+      {
+        headers: {
+          'Cache-Control': cacheControl,
+        },
+      }
+    );
   }
 };
 

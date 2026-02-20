@@ -36,7 +36,7 @@ export function Header({ areas }: HeaderProps) {
     <header className="flex h-14 items-center justify-center border-b border-[#c9c9c9] bg-background pl-3 md:h-[77px]">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-x-[30px]">
-          <Link to={`/${currentArea.slug}`} prefetch="render">
+          <Link to={`/${currentArea.slug}`}>
             <img
               src="/logo-icon.svg"
               alt="居抜きビュッフェ"
@@ -95,7 +95,6 @@ export function Header({ areas }: HeaderProps) {
                       {/* <Button variant="ghost" className="w-full justify-start"> */}
                       <Link
                         to={`/${currentArea.slug}`}
-                        prefetch="render"
                         className="inline-flex h-14 w-full items-center justify-start whitespace-nowrap rounded-[8px] px-8 text-base font-bold text-primary ring-offset-background transition-opacity hover:text-accent-foreground hover:opacity-80 disabled:pointer-events-none disabled:opacity-50"
                         onClick={() => setIsOpen(false)}
                       >
@@ -105,7 +104,6 @@ export function Header({ areas }: HeaderProps) {
                     <li>
                       <Link
                         to={`/${currentArea.slug}/properties`}
-                        prefetch="render"
                         className="inline-flex h-14 w-full items-center justify-start whitespace-nowrap rounded-[8px] px-8 text-base font-bold text-primary ring-offset-background transition-opacity hover:text-accent-foreground hover:opacity-80 disabled:pointer-events-none disabled:opacity-50"
                         onClick={() => setIsOpen(false)}
                       >
@@ -115,7 +113,6 @@ export function Header({ areas }: HeaderProps) {
                     <li>
                       <Link
                         to="/privacy-policy"
-                        prefetch="render"
                         className="inline-flex h-14 w-full items-center justify-start whitespace-nowrap rounded-[8px] px-8 text-base font-bold text-primary ring-offset-background transition-opacity hover:text-accent-foreground hover:opacity-80 disabled:pointer-events-none disabled:opacity-50"
                         onClick={() => setIsOpen(false)}
                       >
@@ -125,7 +122,6 @@ export function Header({ areas }: HeaderProps) {
                     <li>
                       <Link
                         to="/term-of-use"
-                        prefetch="render"
                         className="inline-flex h-14 w-full items-center justify-start whitespace-nowrap rounded-[8px] px-8 text-base font-bold text-primary ring-offset-background transition-opacity hover:text-accent-foreground hover:opacity-80 disabled:pointer-events-none disabled:opacity-50"
                         onClick={() => setIsOpen(false)}
                       >
@@ -135,7 +131,6 @@ export function Header({ areas }: HeaderProps) {
                     <li>
                       <Link
                         to="/contact"
-                        prefetch="render"
                         className="inline-flex h-14 w-full items-center justify-start whitespace-nowrap rounded-[8px] px-8 text-base font-bold text-primary ring-offset-background transition-opacity hover:text-accent-foreground hover:opacity-80 disabled:pointer-events-none disabled:opacity-50"
                         onClick={() => setIsOpen(false)}
                       >

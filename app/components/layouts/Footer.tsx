@@ -9,7 +9,7 @@ export function Footer({ currentAreaSlug }: FooterProps) {
   return (
     <footer className="space-y-6 bg-[#3B5998] px-3">
       <div className="mx-auto max-w-[950px] space-y-[80px] border-b border-[rbga(255,255,255,0.5)] py-8 md:flex md:justify-between md:space-y-0">
-        <Link to={`/${currentAreaSlug}`} prefetch="render">
+        <Link to={`/${currentAreaSlug}`}>
           <img
             src="/footer_icon-logo.svg"
             alt="居抜きビュッフェ Presented by 店舗高値買取センター"
@@ -20,17 +20,17 @@ export function Footer({ currentAreaSlug }: FooterProps) {
         </Link>
         <ul className="gap-x-5 md:flex md:items-center">
           <li className="p-[9px]">
-            <Link to="/term-of-use" prefetch="render" className="text-sm font-bold text-white">
+            <Link to="/term-of-use" className="text-sm font-bold text-white">
               利用規約
             </Link>
           </li>
           <li className="p-[9px]">
-            <Link to="/privacy-policy" prefetch="render" className="text-sm font-bold text-white">
+            <Link to="/privacy-policy" className="text-sm font-bold text-white">
               プライバシーポリシー
             </Link>
           </li>
           <li className="p-[9px]">
-            <Link to="/contact" prefetch="render" className="text-sm font-bold text-white">
+            <Link to="/contact" className="text-sm font-bold text-white">
               お問い合わせ
             </Link>
           </li>

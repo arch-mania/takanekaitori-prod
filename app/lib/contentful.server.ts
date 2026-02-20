@@ -15,8 +15,19 @@ const propertyCache = new LRUCache<string, any>({
   ttl: 1000 * 60 * 1,
 });
 
+// 単一エントリー用キャッシュ（10分TTL）
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const entryCache = new LRUCache<string, any>({
+  max: 1000,
+  ttl: 1000 * 60 * 10,
+});
+
 // マスターデータのcontent_type
 const MASTER_CONTENT_TYPES = ['area', 'region', 'cuisineType', 'restaurantType'];
+
+// 同一キーの同時実行をまとめる（cache stampede対策）
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const inFlightRequests = new Map<string, Promise<any>>();
 
 const baseClient = createClient({
   space: process.env.CONTENTFUL_SPACE_ID as string,
@@ -35,29 +46,50 @@ const getCacheForContentType = (contentType?: string): LRUCache<string, any> | n
   return null;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const runWithInFlightDedup = async (key: string, fetcher: () => Promise<any>) => {
+  const inFlight = inFlightRequests.get(key);
+  if (inFlight) {
+    return inFlight;
+  }
+
+  const promise = fetcher().finally(() => {
+    inFlightRequests.delete(key);
+  });
+  inFlightRequests.set(key, promise);
+  return promise;
+};
+
 export const contentfulClient = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getEntries: async (query: any): Promise<any> => {
     const cache = getCacheForContentType(query.content_type);
-
-    // キャッシュ対象外はそのまま取得
-    if (!cache) {
-      return baseClient.getEntries(query);
-    }
-
     const cacheKey = `entries:${JSON.stringify(query)}`;
-    const cached = cache.get(cacheKey);
-    if (cached) {
-      return cached;
+
+    if (cache) {
+      const cached = cache.get(cacheKey);
+      if (cached) {
+        return cached;
+      }
     }
 
-    const result = await baseClient.getEntries(query);
-    cache.set(cacheKey, result);
+    const result = await runWithInFlightDedup(cacheKey, () => baseClient.getEntries(query));
+    if (cache) {
+      cache.set(cacheKey, result);
+    }
     return result;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getEntry: async (id: string, query?: any): Promise<any> => {
-    return baseClient.getEntry(id, query);
+    const cacheKey = `entry:${id}:${JSON.stringify(query || {})}`;
+    const cached = entryCache.get(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    const result = await runWithInFlightDedup(cacheKey, () => baseClient.getEntry(id, query));
+    entryCache.set(cacheKey, result);
+    return result;
   },
 };

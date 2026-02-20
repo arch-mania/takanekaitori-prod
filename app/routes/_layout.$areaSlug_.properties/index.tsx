@@ -1,13 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { MetaFunction, LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import {
-  useLoaderData,
-  useNavigation,
-  useParams,
-  useSearchParams,
-  type ShouldRevalidateFunction,
-} from '@remix-run/react';
+import { useLoaderData, useNavigation, useParams, useSearchParams } from '@remix-run/react';
 import { Entry, EntryCollection } from 'contentful';
 import ContentsLayout from '~/components/layouts/ContentsLayout';
 import { PropertyCard } from '~/components/parts/PropertyCard';
@@ -19,20 +13,11 @@ import { contentfulClient } from '~/lib/contentful.server';
 import { guardAgainstBadBots } from '~/lib/bot-guard.server';
 import { X } from 'lucide-react';
 import { AnimatedNumber } from '~/components/parts/AnimatedNumber';
-import { filterProperties, isNewProperty } from '~/utils/property';
+import { filterProperties, isNewProperty, NEW_PROPERTY_THRESHOLD } from '~/utils/property';
 import { FilterState } from 'types/contentful';
 
-// 同じページ内でのパラメータ変更時はローダーを再実行しない（APIコール削減）
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-  currentUrl,
-  nextUrl,
-  defaultShouldRevalidate,
-}) => {
-  if (currentUrl.pathname === nextUrl.pathname) {
-    return false;
-  }
-  return defaultShouldRevalidate;
-};
+const ITEMS_PER_PAGE = 10;
+const CACHE_CONTROL = 'public, max-age=0, s-maxage=60, stale-while-revalidate=300';
 
 interface QueryParams {
   minRent?: string;
@@ -91,7 +76,10 @@ const filtersToQueryParams = (filters: FilterState, page: number): QueryParams =
   return params;
 };
 
-const queryParamsToFilters = (searchParams: URLSearchParams, initialFilters: any): FilterState => {
+const queryParamsToFilters = (
+  searchParams: URLSearchParams,
+  initialFilters: { selectedRegion?: { id: string; name: string }; keyword?: string }
+): FilterState => {
   const regions = searchParams.get('regions')?.split(',');
   const cuisineTypes = searchParams.get('cuisineTypes')?.split(',');
   const restaurantTypes = searchParams.get('restaurantTypes')?.split(',');
@@ -121,6 +109,37 @@ const queryParamsToFilters = (searchParams: URLSearchParams, initialFilters: any
   };
 };
 
+const toURLSearchParams = (params: QueryParams): URLSearchParams => {
+  const searchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value) {
+      searchParams.set(key, value);
+    }
+  });
+  return searchParams;
+};
+
+const getWalkingTimeMax = (walkingTime: string): number | null => {
+  switch (walkingTime) {
+    case '1分':
+      return 1;
+    case '3分以内':
+      return 3;
+    case '5分以内':
+      return 5;
+    case '10分以内':
+      return 10;
+    case '15分以内':
+      return 15;
+    default:
+      return null;
+  }
+};
+
+const hasActiveFloorFilters = (filters: FilterState): boolean => {
+  return Object.values(filters.floors).some(Boolean);
+};
+
 async function getAllEntries(query: any): Promise<Entry[]> {
   const limit = 1000;
   let skip = 0;
@@ -135,7 +154,6 @@ async function getAllEntries(query: any): Promise<Entry[]> {
     });
 
     allItems = [...allItems, ...response.items];
-
     skip += limit;
     hasMoreItems = response.total > skip;
   }
@@ -318,24 +336,76 @@ interface LoaderData {
   regions: Region[];
   restaurantTypes: Array<{ id: string; name: string }>;
   areaName: string;
+  placeholder: string;
+  currentPage: number;
+  totalCount: number;
   initialFilters: {
     selectedRegion?: { id: string; name: string };
     keyword?: string;
   };
 }
 
+const mapPropertyEntry = (item: any): Property => ({
+  id: item.sys.id,
+  title: item.fields.title || '',
+  propertyId: item.fields.propertyId || '',
+  regions: item.fields.regions?.map((region: any) => region?.fields?.name || '').filter(Boolean) || [],
+  cuisineTypes: item.fields.cuisineType?.map((type: any) => type?.fields?.name || '').filter(Boolean) || [],
+  address: item.fields.address || '',
+  rent: item.fields.rent || 0,
+  floorArea: item.fields.floorArea || 0,
+  floorAreaTsubo: item.fields.floorAreaTsubo || 0,
+  isNew: isNewProperty(item),
+  isSkeleton: item.fields.isSkeleton || false,
+  isInteriorIncluded: item.fields.isInteriorIncluded || false,
+  walkingTimeToStation: item.fields.walkingTimeToStation || 0,
+  floors: item.fields.floors || [],
+  exteriorImages: item.fields.exteriorImages?.[0]?.fields?.file?.url || '/propertyImage.png',
+  securityDeposit: item.fields.securityDeposit || '-',
+  stationName1: item.fields.stationName1 || '',
+  allowedRestaurantTypes:
+    item.fields.allowedRestaurantTypes?.map((type: any) => type?.fields?.name || '').filter(Boolean) ||
+    [],
+  details: [
+    {
+      label: '最寄り駅',
+      value: `${item.fields.stationName1}${
+        item.fields.walkingTimeToStation ? ` 徒歩${item.fields.walkingTimeToStation}分` : ''
+      }`,
+    },
+    {
+      label: '賃料/坪単価',
+      value: `${item.fields.rent?.toLocaleString() || 0}万円 / ${
+        item.fields.pricePerTsubo?.toLocaleString() || 0
+      }万円`,
+    },
+    {
+      label: '面積',
+      value: `${item.fields.floorArea || 0}㎡ / ${item.fields.floorAreaTsubo || 0}坪`,
+    },
+    { label: '所在地', value: item.fields.address || '-' },
+    { label: `希望譲渡額\n/前業態`, value: item.fields.interiorTransferFee || '-' },
+  ],
+  registrationDate: item.fields.registrationDate
+    ? new Date(item.fields.registrationDate).toLocaleDateString('ja-JP')
+    : new Date(item.sys.createdAt).toLocaleDateString('ja-JP'),
+});
+
 export const loader: LoaderFunction = async ({ params, request }) => {
   guardAgainstBadBots(request);
   const { areaSlug } = params;
   const url = new URL(request.url);
-  const keyword = url.searchParams.get('keyword');
+  const keyword = url.searchParams.get('keyword') || undefined;
   const regionId = url.searchParams.get('region');
+  const pageParam = Number(url.searchParams.get('page') || '1');
+  const currentPage = Number.isNaN(pageParam) || pageParam < 1 ? 1 : pageParam;
 
   try {
     const expiredDays = 3650;
     const dateThreshold = new Date();
     dateThreshold.setDate(dateThreshold.getDate() - expiredDays);
     const thresholdDate = dateThreshold.toISOString();
+    const newThresholdDate = new Date(Date.now() - NEW_PROPERTY_THRESHOLD).toISOString();
 
     const areaEntry = await contentfulClient.getEntries({
       content_type: 'area',
@@ -352,21 +422,11 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     const areaName = area.fields.name;
     const placeholder = area.fields.placeholder || '';
 
-    const regionsInArea = await contentfulClient.getEntries({
-      content_type: 'region',
-      'fields.area.sys.id': areaId,
-      order: ['fields.areaSearchOrder'],
-    });
-
-    const regionIds = regionsInArea.items.map((region) => region.sys.id);
-
-    const [propertyEntries, cuisineTypeEntries, restaurantTypeEntries] = await Promise.all([
-      getAllEntries({
-        content_type: 'property',
-        'fields.regions.sys.id[in]': regionIds.join(','),
-        'fields.registrationDate[gte]': thresholdDate,
-        order: ['-sys.createdAt'],
-        include: 2,
+    const [regionsInArea, cuisineTypeEntries, restaurantTypeEntries] = await Promise.all([
+      contentfulClient.getEntries({
+        content_type: 'region',
+        'fields.area.sys.id': areaId,
+        order: ['fields.areaSearchOrder'],
       }),
       contentfulClient.getEntries({
         content_type: 'cuisineType',
@@ -378,97 +438,238 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       }),
     ]);
 
-    const properties = propertyEntries.map((item: any) => ({
-      id: item.sys.id,
-      title: item.fields.title || '',
-      propertyId: item.fields.propertyId || '',
-      regions:
-        item.fields.regions?.map((region: any) => region?.fields?.name || '').filter(Boolean) || [],
-      cuisineTypes:
-        item.fields.cuisineType
-          ?.map((type: any) => type?.fields?.name || '')
-          .filter(Boolean) || [],
-      address: item.fields.address || '',
-      rent: item.fields.rent || 0,
-      floorArea: item.fields.floorArea || 0,
-      floorAreaTsubo: item.fields.floorAreaTsubo || 0,
-      isNew: isNewProperty(item),
-      isSkeleton: item.fields.isSkeleton || false,
-      isInteriorIncluded: item.fields.isInteriorIncluded || false,
-      walkingTimeToStation: item.fields.walkingTimeToStation || 0,
-      floors: item.fields.floors || [],
-      exteriorImages: item.fields.exteriorImages?.[0]?.fields?.file?.url || '/propertyImage.png',
-      securityDeposit: item.fields.securityDeposit || '-',
-      stationName1: item.fields.stationName1 || '',
-      allowedRestaurantTypes:
-        item.fields.allowedRestaurantTypes
-          ?.map((type: any) => type.fields?.name || '')
-          .filter(Boolean) || [],
-      details: [
+    const selectedRegionEntry =
+      regionId && regionsInArea.items.find((region: any) => region.sys.id === regionId);
+    const selectedRegion = selectedRegionEntry
+      ? {
+          id: selectedRegionEntry.sys.id,
+          name: selectedRegionEntry.fields.name,
+        }
+      : undefined;
+
+    const initialFilters = {
+      selectedRegion,
+      keyword,
+    };
+    const parsedFilters = queryParamsToFilters(url.searchParams, initialFilters);
+
+    const allRegionIds = regionsInArea.items.map((region: any) => region.sys.id);
+    const regionNameToId = new Map(
+      regionsInArea.items.map((region: any) => [String(region.fields.name), String(region.sys.id)])
+    );
+    const cuisineNameToId = new Map(
+      cuisineTypeEntries.items.map((item: any) => [String(item.fields.name), String(item.sys.id)])
+    );
+    const restaurantTypeNameToId = new Map(
+      restaurantTypeEntries.items.map((item: any) => [String(item.fields.name), String(item.sys.id)])
+    );
+
+    const filteredRegionIds =
+      parsedFilters.regions.length > 0
+        ? parsedFilters.regions
+            .map((name) => regionNameToId.get(name))
+            .filter((id): id is string => Boolean(id))
+        : allRegionIds;
+
+    if (filteredRegionIds.length === 0) {
+      return json<LoaderData>(
         {
-          label: '最寄り駅',
-          value: `${item.fields.stationName1}${
-            item.fields.walkingTimeToStation ? ` 徒歩${item.fields.walkingTimeToStation}分` : ''
-          }`,
+          properties: [],
+          cuisineTypes: cuisineTypeEntries.items.map((item: any) => ({
+            id: item.sys.id,
+            name: item.fields.name,
+            order: item.fields.order,
+          })),
+          regions: regionsInArea.items.map((item: any) => ({
+            id: item.sys.id,
+            name: item.fields.name,
+            area: item.fields.area,
+          })),
+          restaurantTypes: restaurantTypeEntries.items.map((item: any) => ({
+            id: item.sys.id,
+            name: item.fields.name,
+          })),
+          areaName,
+          placeholder,
+          currentPage,
+          totalCount: 0,
+          initialFilters,
         },
         {
-          label: '賃料/坪単価',
-          value: `${item.fields.rent?.toLocaleString() || 0}万円 / ${
-            item.fields.pricePerTsubo?.toLocaleString() || 0
-          }万円`,
-        },
-        {
-          label: '面積',
-          value: `${item.fields.floorArea || 0}㎡ / ${item.fields.floorAreaTsubo || 0}坪`,
-        },
-        { label: '所在地', value: item.fields.address || '-' },
-        { label: `希望譲渡額\n/前業態`, value: item.fields.interiorTransferFee || '-' },
-      ],
-      registrationDate: item.fields.registrationDate
-        ? new Date(item.fields.registrationDate).toLocaleDateString('ja-JP')
-        : new Date(item.sys.createdAt).toLocaleDateString('ja-JP'),
-    }));
-
-    const cuisineTypes = cuisineTypeEntries.items.map((item: any) => ({
-      id: item.sys.id,
-      name: item.fields.name,
-      order: item.fields.order,
-    }));
-
-    const regions = regionsInArea.items.map((item: any) => ({
-      id: item.sys.id,
-      name: item.fields.name,
-      area: item.fields.area,
-    }));
-
-    const restaurantTypes = restaurantTypeEntries.items.map((item: any) => ({
-      id: item.sys.id,
-      name: item.fields.name,
-    }));
-
-    let selectedRegion = undefined;
-    if (regionId) {
-      const regionEntry = await contentfulClient.getEntry(regionId);
-      if (regionEntry) {
-        selectedRegion = {
-          id: regionEntry.sys.id,
-          name: regionEntry.fields.name,
-        };
-      }
+          headers: {
+            'Cache-Control': CACHE_CONTROL,
+          },
+        }
+      );
     }
 
-    return json<LoaderData>({
-      properties,
-      cuisineTypes,
-      regions,
-      restaurantTypes,
-      areaName,
-      placeholder,
-      initialFilters: {
-        selectedRegion,
-        keyword,
+    const basePropertyQuery: any = {
+      content_type: 'property',
+      'fields.regions.sys.id[in]': filteredRegionIds.join(','),
+      'fields.registrationDate[gte]': thresholdDate,
+      order: ['-sys.createdAt'],
+      include: 2,
+    };
+
+    if (parsedFilters.minRent !== '下限なし') {
+      basePropertyQuery['fields.rent[gte]'] = Number(parsedFilters.minRent);
+    }
+    if (parsedFilters.maxRent !== '上限なし') {
+      basePropertyQuery['fields.rent[lte]'] = Number(parsedFilters.maxRent);
+    }
+    if (parsedFilters.minArea !== '下限なし') {
+      basePropertyQuery['fields.floorAreaTsubo[gte]'] = Number(parsedFilters.minArea);
+    }
+    if (parsedFilters.maxArea !== '上限なし') {
+      basePropertyQuery['fields.floorAreaTsubo[lte]'] = Number(parsedFilters.maxArea);
+    }
+    if (parsedFilters.isSkeleton) {
+      basePropertyQuery['fields.isSkeleton'] = true;
+    }
+    if (parsedFilters.isInteriorIncluded) {
+      basePropertyQuery['fields.isInteriorIncluded'] = true;
+    }
+
+    const walkingTimeMax = getWalkingTimeMax(parsedFilters.walkingTime);
+    if (walkingTimeMax !== null) {
+      basePropertyQuery['fields.walkingTimeToStation[lte]'] = walkingTimeMax;
+    }
+
+    if (parsedFilters.cuisineTypes.length > 0) {
+      const cuisineIds = parsedFilters.cuisineTypes
+        .map((name) => cuisineNameToId.get(name))
+        .filter((id): id is string => Boolean(id));
+      if (cuisineIds.length === 0) {
+        return json<LoaderData>(
+          {
+            properties: [],
+            cuisineTypes: cuisineTypeEntries.items.map((item: any) => ({
+              id: item.sys.id,
+              name: item.fields.name,
+              order: item.fields.order,
+            })),
+            regions: regionsInArea.items.map((item: any) => ({
+              id: item.sys.id,
+              name: item.fields.name,
+              area: item.fields.area,
+            })),
+            restaurantTypes: restaurantTypeEntries.items.map((item: any) => ({
+              id: item.sys.id,
+              name: item.fields.name,
+            })),
+            areaName,
+            placeholder,
+            currentPage,
+            totalCount: 0,
+            initialFilters,
+          },
+          {
+            headers: {
+              'Cache-Control': CACHE_CONTROL,
+            },
+          }
+        );
+      }
+      basePropertyQuery['fields.cuisineType.sys.id[in]'] = cuisineIds.join(',');
+    }
+
+    if (parsedFilters.allowedRestaurantTypes.length > 0) {
+      const restaurantTypeIds = parsedFilters.allowedRestaurantTypes
+        .map((name) => restaurantTypeNameToId.get(name))
+        .filter((id): id is string => Boolean(id));
+      if (restaurantTypeIds.length === 0) {
+        return json<LoaderData>(
+          {
+            properties: [],
+            cuisineTypes: cuisineTypeEntries.items.map((item: any) => ({
+              id: item.sys.id,
+              name: item.fields.name,
+              order: item.fields.order,
+            })),
+            regions: regionsInArea.items.map((item: any) => ({
+              id: item.sys.id,
+              name: item.fields.name,
+              area: item.fields.area,
+            })),
+            restaurantTypes: restaurantTypeEntries.items.map((item: any) => ({
+              id: item.sys.id,
+              name: item.fields.name,
+            })),
+            areaName,
+            placeholder,
+            currentPage,
+            totalCount: 0,
+            initialFilters,
+          },
+          {
+            headers: {
+              'Cache-Control': CACHE_CONTROL,
+            },
+          }
+        );
+      }
+      basePropertyQuery['fields.allowedRestaurantTypes.sys.id[in]'] = restaurantTypeIds.join(',');
+    }
+
+    if (parsedFilters.keyword.trim()) {
+      basePropertyQuery.query = parsedFilters.keyword.trim();
+    }
+
+    const needsServerPostFilter = parsedFilters.isNew || hasActiveFloorFilters(parsedFilters);
+
+    let properties: Property[] = [];
+    let totalCount = 0;
+
+    if (needsServerPostFilter) {
+      const allEntries = await getAllEntries(basePropertyQuery);
+      const allProperties = allEntries.map(mapPropertyEntry);
+      const filteredProperties = allProperties.filter((property) =>
+        filterProperties(property as any, parsedFilters)
+      );
+
+      totalCount = filteredProperties.length;
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      properties = filteredProperties.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+    } else {
+      const pagedResponse: EntryCollection<any> = await contentfulClient.getEntries({
+        ...basePropertyQuery,
+        limit: ITEMS_PER_PAGE,
+        skip: (currentPage - 1) * ITEMS_PER_PAGE,
+      });
+
+      properties = pagedResponse.items.map(mapPropertyEntry);
+      totalCount = pagedResponse.total;
+    }
+
+    return json<LoaderData>(
+      {
+        properties,
+        cuisineTypes: cuisineTypeEntries.items.map((item: any) => ({
+          id: item.sys.id,
+          name: item.fields.name,
+          order: item.fields.order,
+        })),
+        regions: regionsInArea.items.map((item: any) => ({
+          id: item.sys.id,
+          name: item.fields.name,
+          area: item.fields.area,
+        })),
+        restaurantTypes: restaurantTypeEntries.items.map((item: any) => ({
+          id: item.sys.id,
+          name: item.fields.name,
+        })),
+        areaName,
+        placeholder,
+        currentPage,
+        totalCount,
+        initialFilters,
       },
-    });
+      {
+        headers: {
+          'Cache-Control': CACHE_CONTROL,
+        },
+      }
+    );
   } catch (error) {
     console.error('Contentful fetch error:', error);
     throw error;
@@ -602,82 +803,49 @@ export default function Search() {
   const isDesktop = useMediaQuery('(min-width: 1024px)');
   const navigation = useNavigation();
   const isLoading = navigation.state === 'loading';
-  const { properties, regions, cuisineTypes, restaurantTypes, initialFilters, areaName, placeholder } =
+  const { properties, regions, cuisineTypes, restaurantTypes, initialFilters, areaName, placeholder, totalCount, currentPage } =
     useLoaderData<typeof loader>();
-
-  const [currentPage, setCurrentPage] = useState(() => {
-    const page = searchParams.get('page');
-    return page ? parseInt(page) : 1;
-  });
 
   const [filters, setFilters] = useState<FilterState>(() =>
     queryParamsToFilters(searchParams, initialFilters)
   );
-
-  const [filteredProperties, setFilteredProperties] = useState<Property[]>(properties);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [appliedFilters, setAppliedFilters] = useState<FilterState>(filters);
-  const [displayCount, setDisplayCount] = useState(properties.length);
   const [inputValue, setInputValue] = useState(filters.keyword || '');
+  const initialRegionName = initialFilters.selectedRegion?.name || '';
+  const initialKeyword = initialFilters.keyword || '';
+  const searchParamsKey = searchParams.toString();
 
-  const ITEMS_PER_PAGE = 10;
+  const activeFilters = useMemo(
+    () => queryParamsToFilters(searchParams, initialFilters),
+    [searchParamsKey, initialRegionName, initialKeyword]
+  );
+
+  useEffect(() => {
+    const nextFilters = queryParamsToFilters(searchParams, initialFilters);
+    setFilters(nextFilters);
+    setInputValue(nextFilters.keyword || '');
+  }, [searchParamsKey, initialRegionName, initialKeyword]);
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   }, []);
 
   const handleFilterChange = (name: string, value: any) => {
-    const updatedFilters = { ...filters, [name]: value };
-    setFilters(updatedFilters);
-    calculateDisplayCount(updatedFilters);
+    setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSearch = () => {
-    setAppliedFilters(filters);
-    setCurrentPage(1);
     setIsSearchOpen(false);
-    setSearchParams(filtersToQueryParams(filters, 1));
+    setSearchParams(toURLSearchParams(filtersToQueryParams(filters, 1)));
     window.scrollTo({ top: 0 });
   };
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    setSearchParams(filtersToQueryParams(filters, page));
+    setSearchParams(toURLSearchParams(filtersToQueryParams(activeFilters, page)));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  useEffect(() => {
-    if (properties.length > 0) {
-      setIsInitialLoad(false);
-      const filtered = properties.filter((property) => filterProperties(property, filters));
-      setFilteredProperties(filtered);
-      setDisplayCount(filtered.length);
-    }
-  }, [properties]);
-
-  // フィルターが変更された時の処理
-  useEffect(() => {
-    const filtered = properties.filter((property) => filterProperties(property, appliedFilters));
-    setFilteredProperties(filtered);
-    setDisplayCount(filtered.length);
-  }, [appliedFilters, properties]);
-
-  // 表示件数の計算
-  const calculateDisplayCount = useCallback(
-    (currentFilters: FilterState) => {
-      const count = properties.filter((property) =>
-        filterProperties(property, currentFilters)
-      ).length;
-      setDisplayCount(count);
-    },
-    [properties]
-  );
-
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentProperties = filteredProperties.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(filteredProperties.length / ITEMS_PER_PAGE);
+  const totalPages = Math.max(1, Math.ceil(totalCount / ITEMS_PER_PAGE));
 
   return (
     <ContentsLayout className="m-auto max-w-[950px] pb-[80px] lg:p-0 lg:py-6">
@@ -704,12 +872,12 @@ export default function Search() {
               </SheetClose>
             </div>
             <SearchFilters
-              isInitialLoad={isInitialLoad}
+              isInitialLoad={false}
               filters={filters}
               regions={regions}
               cuisineTypes={cuisineTypes}
               restaurantTypes={restaurantTypes}
-              displayCount={displayCount}
+              displayCount={totalCount}
               inputValue={inputValue}
               placeholder={placeholder}
               onInputChange={handleInputChange}
@@ -724,12 +892,12 @@ export default function Search() {
         {isDesktop && (
           <div className="relative h-fit w-[222px] border border-[#C9C9C9]">
             <SearchFilters
-              isInitialLoad={isInitialLoad}
+              isInitialLoad={false}
               filters={filters}
               regions={regions}
               cuisineTypes={cuisineTypes}
               restaurantTypes={restaurantTypes}
-              displayCount={displayCount}
+              displayCount={totalCount}
               inputValue={inputValue}
               placeholder={placeholder}
               onInputChange={handleInputChange}
@@ -744,15 +912,15 @@ export default function Search() {
             <div>
               <span className="text-sm font-medium md:text-base">{areaName}物件一覧</span>
               <AnimatedNumber
-                value={displayCount}
+                value={totalCount}
                 className="ml-6 text-xl font-medium md:text-2xl md:font-[32px]"
               />
               <span className="ml-1 text-sm font-medium md:text-base">件</span>
             </div>
-            <CurrentFilters filters={appliedFilters} />
-            {isLoading || isInitialLoad
+            <CurrentFilters filters={activeFilters} />
+            {isLoading
               ? [...Array(5)].map((_, i) => <PropertyCardSkeleton key={i} />)
-              : currentProperties.map((property) => (
+              : properties.map((property) => (
                   <PropertyCard
                     key={property.id}
                     areaSlug={areaSlug}
@@ -776,7 +944,7 @@ export default function Search() {
                     registrationDate={property.registrationDate}
                   />
                 ))}
-            {!isLoading && !isInitialLoad && filteredProperties.length > 0 && (
+            {!isLoading && totalCount > 0 && totalPages > 1 && (
               <div className="mt-8">
                 <Pagination
                   currentPage={currentPage}
@@ -785,7 +953,7 @@ export default function Search() {
                 />
               </div>
             )}
-            {!isLoading && !isInitialLoad && filteredProperties.length === 0 && (
+            {!isLoading && totalCount === 0 && (
               <div className="mt-8 text-center">
                 <p className="text-lg font-medium">該当する物件が見つかりません。</p>
                 <p className="mt-2 text-sm text-gray-600">検索条件を変更して再度お試しください。</p>

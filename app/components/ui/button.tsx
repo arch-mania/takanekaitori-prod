@@ -40,21 +40,42 @@ export interface ButtonProps
   asChild?: boolean;
   to?: string;
   target?: '_blank';
+  prefetch?: 'none' | 'intent' | 'render';
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, to, target, children, ...props }, ref) => {
+  (
+    { className, variant, size, asChild = false, to, target, children, prefetch = 'none', ...props },
+    ref
+  ) => {
     const Comp = asChild ? Slot : 'button';
     const classes = cn(buttonVariants({ variant, size, className }));
 
     if (to) {
+      const isExternalLink = /^https?:\/\//.test(to);
+
+      if (isExternalLink) {
+        return (
+          <a
+            href={to}
+            target={target}
+            rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+            className={classes}
+          >
+            <Comp className="flex size-full items-center justify-center" ref={ref} {...props}>
+              {children}
+            </Comp>
+          </a>
+        );
+      }
+
       return (
         <Link
           to={to}
           target={target}
           rel={target === '_blank' ? 'noopener noreferrer' : undefined}
           className={classes}
-          prefetch="render"
+          prefetch={prefetch}
         >
           <Comp className="flex size-full items-center justify-center" ref={ref} {...props}>
             {children}

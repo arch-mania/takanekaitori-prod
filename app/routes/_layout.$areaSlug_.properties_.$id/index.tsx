@@ -143,6 +143,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   guardAgainstBadBots(request);
+  const cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=300';
   try {
     const entries = await contentfulClient.getEntry(params.id as string, {
       include: 2,
@@ -275,7 +276,11 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       ],
     };
 
-    return json(property);
+    return json(property, {
+      headers: {
+        'Cache-Control': cacheControl,
+      },
+    });
   } catch (error) {
     console.error('Contentful fetch error:', error);
     throw new Response('物件が見つかりません', { status: 404 });

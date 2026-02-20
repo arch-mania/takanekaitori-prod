@@ -85,7 +85,7 @@ const fetchAreas = async (): Promise<Area[]> => {
     order: ['fields.order'],
   });
 
-  return entries.items.map((item) => ({
+  return entries.items.map((item: any) => ({
     id: item.sys.id,
     name: String(item.fields.name || ''),
     order: Number(item.fields.order) || 0,
@@ -95,9 +95,17 @@ const fetchAreas = async (): Promise<Area[]> => {
 
 export const loader: LoaderFunction = async ({ request }) => {
   guardAgainstBadBots(request);
+  const cacheControl = 'public, max-age=0, s-maxage=600, stale-while-revalidate=3600';
   try {
     const areas = await fetchAreas();
-    return json<LoaderData>({ areas });
+    return json<LoaderData>(
+      { areas },
+      {
+        headers: {
+          'Cache-Control': cacheControl,
+        },
+      }
+    );
   } catch (error) {
     console.error('Contentful fetch error:', error);
     throw error;
