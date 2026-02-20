@@ -8,6 +8,7 @@ import { PropertyCard } from '~/components/parts/PropertyCard';
 import { Button } from '~/components/ui/button';
 import { Skeleton } from '~/components/ui/skeleton';
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '~/components/ui/sheet';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select';
 import { SearchFilters } from '~/components/parts/SearchFilters';
 import { contentfulClient } from '~/lib/contentful.server';
 import { guardAgainstBadBots } from '~/lib/bot-guard.server';
@@ -18,6 +19,30 @@ import { FilterState } from 'types/contentful';
 
 const ITEMS_PER_PAGE = 10;
 const CACHE_CONTROL = 'public, max-age=0, s-maxage=60, stale-while-revalidate=300';
+const SORT_OPTIONS = [
+  { value: 'newest', label: '新着順' },
+  { value: 'rentAsc', label: '賃料安い順' },
+  { value: 'areaDesc', label: '面積広い順' },
+] as const;
+type SortOption = (typeof SORT_OPTIONS)[number]['value'];
+const DEFAULT_SORT_OPTION: SortOption = 'newest';
+
+const parseSortOption = (value: string | null | undefined): SortOption => {
+  if (!value) return DEFAULT_SORT_OPTION;
+  return SORT_OPTIONS.find((option) => option.value === value)?.value || DEFAULT_SORT_OPTION;
+};
+
+const getSortOrder = (sort: SortOption): string[] => {
+  switch (sort) {
+    case 'rentAsc':
+      return ['fields.rent', '-sys.createdAt'];
+    case 'areaDesc':
+      return ['-fields.floorAreaTsubo', '-sys.createdAt'];
+    case 'newest':
+    default:
+      return ['-fields.registrationDate', '-sys.createdAt'];
+  }
+};
 
 interface QueryParams {
   minRent?: string;
@@ -39,9 +64,10 @@ interface QueryParams {
   keyword?: string;
   walkingTime?: string;
   page?: string;
+  sort?: SortOption;
 }
 
-const filtersToQueryParams = (filters: FilterState, page: number): QueryParams => {
+const filtersToQueryParams = (filters: FilterState, page: number, sort: SortOption): QueryParams => {
   const params: QueryParams = {
     minRent: filters.minRent !== '下限なし' ? filters.minRent : undefined,
     maxRent: filters.maxRent !== '上限なし' ? filters.maxRent : undefined,
@@ -65,6 +91,7 @@ const filtersToQueryParams = (filters: FilterState, page: number): QueryParams =
     keyword: filters.keyword || undefined,
     walkingTime: filters.walkingTime !== '指定なし' ? filters.walkingTime : undefined,
     page: page > 1 ? page.toString() : undefined,
+    sort: sort !== DEFAULT_SORT_OPTION ? sort : undefined,
   };
 
   Object.keys(params).forEach((key) => {
@@ -312,6 +339,8 @@ interface Property {
   allowedRestaurantTypes: string[];
   details: Array<{ label: string; value: string }>;
   registrationDate: string;
+  sortNewestTimestamp: number;
+  sortCreatedTimestamp: number;
 }
 
 interface CuisineType {
@@ -345,51 +374,79 @@ interface LoaderData {
   };
 }
 
-const mapPropertyEntry = (item: any): Property => ({
-  id: item.sys.id,
-  title: item.fields.title || '',
-  propertyId: item.fields.propertyId || '',
-  regions: item.fields.regions?.map((region: any) => region?.fields?.name || '').filter(Boolean) || [],
-  cuisineTypes: item.fields.cuisineType?.map((type: any) => type?.fields?.name || '').filter(Boolean) || [],
-  address: item.fields.address || '',
-  rent: item.fields.rent || 0,
-  floorArea: item.fields.floorArea || 0,
-  floorAreaTsubo: item.fields.floorAreaTsubo || 0,
-  isNew: isNewProperty(item),
-  isSkeleton: item.fields.isSkeleton || false,
-  isInteriorIncluded: item.fields.isInteriorIncluded || false,
-  walkingTimeToStation: item.fields.walkingTimeToStation || 0,
-  floors: item.fields.floors || [],
-  exteriorImages: item.fields.exteriorImages?.[0]?.fields?.file?.url || '/propertyImage.png',
-  securityDeposit: item.fields.securityDeposit || '-',
-  stationName1: item.fields.stationName1 || '',
-  allowedRestaurantTypes:
-    item.fields.allowedRestaurantTypes?.map((type: any) => type?.fields?.name || '').filter(Boolean) ||
-    [],
-  details: [
-    {
-      label: '最寄り駅',
-      value: `${item.fields.stationName1}${
-        item.fields.walkingTimeToStation ? ` 徒歩${item.fields.walkingTimeToStation}分` : ''
-      }`,
-    },
-    {
-      label: '賃料/坪単価',
-      value: `${item.fields.rent?.toLocaleString() || 0}万円 / ${
-        item.fields.pricePerTsubo?.toLocaleString() || 0
-      }万円`,
-    },
-    {
-      label: '面積',
-      value: `${item.fields.floorArea || 0}㎡ / ${item.fields.floorAreaTsubo || 0}坪`,
-    },
-    { label: '所在地', value: item.fields.address || '-' },
-    { label: `希望譲渡額\n/前業態`, value: item.fields.interiorTransferFee || '-' },
-  ],
-  registrationDate: item.fields.registrationDate
-    ? new Date(item.fields.registrationDate).toLocaleDateString('ja-JP')
-    : new Date(item.sys.createdAt).toLocaleDateString('ja-JP'),
-});
+const mapPropertyEntry = (item: any): Property => {
+  const newestDateSource = item.fields.registrationDate || item.sys.createdAt;
+
+  return {
+    id: item.sys.id,
+    title: item.fields.title || '',
+    propertyId: item.fields.propertyId || '',
+    regions:
+      item.fields.regions?.map((region: any) => region?.fields?.name || '').filter(Boolean) || [],
+    cuisineTypes:
+      item.fields.cuisineType?.map((type: any) => type?.fields?.name || '').filter(Boolean) || [],
+    address: item.fields.address || '',
+    rent: item.fields.rent || 0,
+    floorArea: item.fields.floorArea || 0,
+    floorAreaTsubo: item.fields.floorAreaTsubo || 0,
+    isNew: isNewProperty(item),
+    isSkeleton: item.fields.isSkeleton || false,
+    isInteriorIncluded: item.fields.isInteriorIncluded || false,
+    walkingTimeToStation: item.fields.walkingTimeToStation || 0,
+    floors: item.fields.floors || [],
+    exteriorImages: item.fields.exteriorImages?.[0]?.fields?.file?.url || '/propertyImage.png',
+    securityDeposit: item.fields.securityDeposit || '-',
+    stationName1: item.fields.stationName1 || '',
+    allowedRestaurantTypes:
+      item.fields.allowedRestaurantTypes
+        ?.map((type: any) => type?.fields?.name || '')
+        .filter(Boolean) || [],
+    details: [
+      {
+        label: '最寄り駅',
+        value: `${item.fields.stationName1}${
+          item.fields.walkingTimeToStation ? ` 徒歩${item.fields.walkingTimeToStation}分` : ''
+        }`,
+      },
+      {
+        label: '賃料/坪単価',
+        value: `${item.fields.rent?.toLocaleString() || 0}万円 / ${
+          item.fields.pricePerTsubo?.toLocaleString() || 0
+        }万円`,
+      },
+      {
+        label: '面積',
+        value: `${item.fields.floorArea || 0}㎡ / ${item.fields.floorAreaTsubo || 0}坪`,
+      },
+      { label: '所在地', value: item.fields.address || '-' },
+      { label: `希望譲渡額\n/前業態`, value: item.fields.interiorTransferFee || '-' },
+    ],
+    registrationDate: new Date(newestDateSource).toLocaleDateString('ja-JP'),
+    sortNewestTimestamp: new Date(newestDateSource).getTime() || 0,
+    sortCreatedTimestamp: new Date(item.sys.createdAt).getTime() || 0,
+  };
+};
+
+const comparePropertiesBySort = (a: Property, b: Property, sort: SortOption): number => {
+  switch (sort) {
+    case 'rentAsc':
+      if (a.rent !== b.rent) {
+        return a.rent - b.rent;
+      }
+      return b.sortCreatedTimestamp - a.sortCreatedTimestamp;
+    case 'areaDesc':
+      if (a.floorAreaTsubo !== b.floorAreaTsubo) {
+        return b.floorAreaTsubo - a.floorAreaTsubo;
+      }
+      return b.sortCreatedTimestamp - a.sortCreatedTimestamp;
+    case 'newest':
+    default:
+      if (a.sortNewestTimestamp !== b.sortNewestTimestamp) {
+        return b.sortNewestTimestamp - a.sortNewestTimestamp;
+      }
+      return b.sortCreatedTimestamp - a.sortCreatedTimestamp;
+  }
+};
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   guardAgainstBadBots(request);
@@ -397,6 +454,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const url = new URL(request.url);
   const keyword = url.searchParams.get('keyword') || undefined;
   const regionId = url.searchParams.get('region');
+  const sortOption = parseSortOption(url.searchParams.get('sort'));
   const pageParam = Number(url.searchParams.get('page') || '1');
   const currentPage = Number.isNaN(pageParam) || pageParam < 1 ? 1 : pageParam;
 
@@ -507,7 +565,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       content_type: 'property',
       'fields.regions.sys.id[in]': filteredRegionIds.join(','),
       'fields.registrationDate[gte]': thresholdDate,
-      order: ['-sys.createdAt'],
+      order: getSortOrder(sortOption),
       include: 2,
     };
 
@@ -626,10 +684,13 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       const filteredProperties = allProperties.filter((property) =>
         filterProperties(property as any, parsedFilters)
       );
+      const sortedProperties = filteredProperties.sort((a, b) =>
+        comparePropertiesBySort(a, b, sortOption)
+      );
 
-      totalCount = filteredProperties.length;
+      totalCount = sortedProperties.length;
       const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-      properties = filteredProperties.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+      properties = sortedProperties.slice(startIndex, startIndex + ITEMS_PER_PAGE);
     } else {
       const pagedResponse: EntryCollection<any> = await contentfulClient.getEntries({
         ...basePropertyQuery,
@@ -681,7 +742,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const regionNames =
     data?.regions
       ?.slice(0, 6)
-      .map((region) => region.name)
+      .map((region: Region) => region.name)
       .join('、') || '';
 
   const regionText = regionNames ? `（${regionNames}）` : '';
@@ -814,6 +875,7 @@ export default function Search() {
   const initialRegionName = initialFilters.selectedRegion?.name || '';
   const initialKeyword = initialFilters.keyword || '';
   const searchParamsKey = searchParams.toString();
+  const currentSort = useMemo(() => parseSortOption(searchParams.get('sort')), [searchParamsKey]);
 
   const activeFilters = useMemo(
     () => queryParamsToFilters(searchParams, initialFilters),
@@ -836,12 +898,18 @@ export default function Search() {
 
   const handleSearch = () => {
     setIsSearchOpen(false);
-    setSearchParams(toURLSearchParams(filtersToQueryParams(filters, 1)));
+    setSearchParams(toURLSearchParams(filtersToQueryParams(filters, 1, currentSort)));
     window.scrollTo({ top: 0 });
   };
 
   const handlePageChange = (page: number) => {
-    setSearchParams(toURLSearchParams(filtersToQueryParams(activeFilters, page)));
+    setSearchParams(toURLSearchParams(filtersToQueryParams(activeFilters, page, currentSort)));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSortChange = (value: string) => {
+    const nextSort = parseSortOption(value);
+    setSearchParams(toURLSearchParams(filtersToQueryParams(activeFilters, 1, nextSort)));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -909,18 +977,35 @@ export default function Search() {
 
         <div className="flex-1">
           <div className="space-y-4">
-            <div>
-              <span className="text-sm font-medium md:text-base">{areaName}物件一覧</span>
-              <AnimatedNumber
-                value={totalCount}
-                className="ml-6 text-xl font-medium md:text-2xl md:font-[32px]"
-              />
-              <span className="ml-1 text-sm font-medium md:text-base">件</span>
+            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+              <div>
+                <span className="text-sm font-medium md:text-base">{areaName}物件一覧</span>
+                <AnimatedNumber
+                  value={totalCount}
+                  className="ml-6 text-xl font-medium md:text-2xl md:font-[32px]"
+                />
+                <span className="ml-1 text-sm font-medium md:text-base">件</span>
+              </div>
+              <div className="flex items-center justify-end gap-2 self-end md:self-auto">
+                <span className="text-xs text-[#666666]">並び替え</span>
+                <Select value={currentSort} onValueChange={handleSortChange}>
+                  <SelectTrigger className="h-9 min-w-[140px] text-sm">
+                    <SelectValue placeholder="新着順" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {SORT_OPTIONS.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
             <CurrentFilters filters={activeFilters} />
             {isLoading
               ? [...Array(5)].map((_, i) => <PropertyCardSkeleton key={i} />)
-              : properties.map((property) => (
+              : properties.map((property: Property) => (
                   <PropertyCard
                     key={property.id}
                     areaSlug={areaSlug}
