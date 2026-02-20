@@ -466,14 +466,18 @@ export default function PropertyDetail() {
       </div>
 
       <div className="relative mt-4 lg:mt-8">
-        <Table className="border-collapse">
+        <Table className="w-full table-fixed border-collapse">
+          <colgroup>
+            <col className="w-4/12" />
+            <col className="w-8/12" />
+          </colgroup>
           <TableBody>
             {property.details.map((item: { label: string; value: string }, index: number) => (
               <TableRow key={index}>
-                <TableCell className="w-4/12 border border-background bg-[#E8EAED] py-3 text-xs font-medium md:text-base">
+                <TableCell className="border border-background bg-[#E8EAED] py-3 text-xs font-medium md:text-base">
                   {item.label}
                 </TableCell>
-                <TableCell className="w-[80px] whitespace-pre-line border-y border-[#C9C9C9] py-3 md:text-base">
+                <TableCell className="whitespace-pre-line border-y border-[#C9C9C9] py-3 md:text-base">
                   {item.value}
                 </TableCell>
               </TableRow>
@@ -483,8 +487,8 @@ export default function PropertyDetail() {
 
         {hasLockedSection && (
           <div
-            className="absolute inset-x-0 bottom-0 z-10 flex items-center justify-center bg-white/55 p-4 backdrop-blur-[3px] md:p-6"
-            style={{ top: `${lockedSectionTopPercent}%` }}
+            className="absolute bottom-0 right-0 z-10 flex items-center justify-center bg-white/55 p-4 backdrop-blur-[3px] md:p-6"
+            style={{ top: `${lockedSectionTopPercent}%`, left: 'calc(33.333333% + 1px)' }}
           >
             <Button
               type="button"
