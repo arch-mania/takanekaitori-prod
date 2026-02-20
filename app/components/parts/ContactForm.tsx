@@ -4,13 +4,14 @@ import { Label } from '~/components/ui/label';
 import { Input } from '~/components/ui/input';
 import { Textarea } from '~/components/ui/textarea';
 import { useState, useEffect } from 'react';
-import type { ActionData } from '~/types/contact';
+import type { ActionData, FormKind } from '~/types/contact';
 
 interface ContactFormProps {
   propertyId?: string;
   propertyTitle?: string;
   assignedAgent?: string;
   isPhoneRequired?: boolean;
+  formKind?: FormKind;
 }
 
 const ContactForm = ({
@@ -18,15 +19,18 @@ const ContactForm = ({
   propertyId,
   assignedAgent,
   isPhoneRequired = false,
+  formKind = 'propertyInquiry',
 }: ContactFormProps) => {
   const actionData = useActionData<ActionData>();
   const navigation = useNavigation();
   const [showOtherInput, setShowOtherInput] = useState(false);
   const isSubmitting = navigation.state === 'submitting';
   const [showSuccess, setShowSuccess] = useState(false);
+  const scopedActionData =
+    actionData && (!actionData.formKind || actionData.formKind === formKind) ? actionData : null;
 
   useEffect(() => {
-    if (actionData?.success) {
+    if (scopedActionData?.success) {
       setShowSuccess(true);
 
       const timer = setTimeout(() => {
@@ -37,7 +41,7 @@ const ContactForm = ({
         clearTimeout(timer);
       };
     }
-  }, [actionData]);
+  }, [scopedActionData]);
 
   return (
     <>
@@ -58,6 +62,7 @@ const ContactForm = ({
       </div>
 
       <Form method="post" className="space-y-6">
+        <input type="hidden" name="formKind" value={formKind} />
         <input type="hidden" name="propertyTitle" value={propertyTitle || ''} />
         <input type="hidden" name="propertyId" value={propertyId || ''} />
         <input type="hidden" name="assignedAgent" value={assignedAgent || ''} />
@@ -94,8 +99,8 @@ const ContactForm = ({
               その他
             </label>
           </div>
-          {actionData?.errors?.inquiryType && (
-            <p className="text-sm text-red-500">{actionData.errors.inquiryType}</p>
+          {scopedActionData?.errors?.inquiryType && (
+            <p className="text-sm text-red-500">{scopedActionData.errors.inquiryType}</p>
           )}
           {showOtherInput && (
             <>
@@ -105,8 +110,8 @@ const ContactForm = ({
                 rows={4}
                 placeholder="その他を選択した場合は内容をご入力ください。"
               />
-              {actionData?.errors?.inquiryContent && (
-                <p className="text-sm text-red-500">{actionData.errors.inquiryContent}</p>
+              {scopedActionData?.errors?.inquiryContent && (
+                <p className="text-sm text-red-500">{scopedActionData.errors.inquiryContent}</p>
               )}
             </>
           )}
@@ -125,8 +130,8 @@ const ContactForm = ({
             className="w-full border border-gray-300 p-2 text-sm"
             placeholder="ヤマダ タロウ"
           />
-          {actionData?.errors?.name && (
-            <p className="text-sm text-red-500">{actionData.errors.name}</p>
+          {scopedActionData?.errors?.name && (
+            <p className="text-sm text-red-500">{scopedActionData.errors.name}</p>
           )}
         </div>
 
@@ -143,8 +148,8 @@ const ContactForm = ({
             className="w-full border border-gray-300 p-2 text-sm"
             placeholder="sample@t-kaitori.com"
           />
-          {actionData?.errors?.email && (
-            <p className="text-sm text-red-500">{actionData.errors.email}</p>
+          {scopedActionData?.errors?.email && (
+            <p className="text-sm text-red-500">{scopedActionData.errors.email}</p>
           )}
         </div>
 
@@ -167,8 +172,8 @@ const ContactForm = ({
             className="w-full border border-gray-300 p-2 text-sm"
             placeholder="090-1234-5678"
           />
-          {actionData?.errors?.phone && (
-            <p className="text-sm text-red-500">{actionData.errors.phone}</p>
+          {scopedActionData?.errors?.phone && (
+            <p className="text-sm text-red-500">{scopedActionData.errors.phone}</p>
           )}
         </div>
 
@@ -180,16 +185,20 @@ const ContactForm = ({
             </span>
           </Label>
           <Textarea name="message" className="w-full border border-gray-300 p-2 text-sm" rows={4} />
-          {actionData?.errors?.message && (
-            <p className="text-sm text-red-500">{actionData.errors.message}</p>
+          {scopedActionData?.errors?.message && (
+            <p className="text-sm text-red-500">{scopedActionData.errors.message}</p>
           )}
         </div>
         {showSuccess && (
-          <div className="mb-4 rounded bg-green-100 p-4 text-green-700">{actionData?.message}</div>
+          <div className="mb-4 rounded bg-green-100 p-4 text-green-700">
+            {scopedActionData?.message}
+          </div>
         )}
 
-        {actionData?.errors?._form && (
-          <div className="mb-4 rounded bg-red-100 p-4 text-red-700">{actionData.errors._form}</div>
+        {scopedActionData?.errors?._form && (
+          <div className="mb-4 rounded bg-red-100 p-4 text-red-700">
+            {scopedActionData.errors._form}
+          </div>
         )}
         <Button
           type="submit"

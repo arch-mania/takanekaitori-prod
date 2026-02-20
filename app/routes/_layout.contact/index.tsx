@@ -68,7 +68,7 @@ function validateForm(data: FormData): FormErrors {
     errors.inquiryType = ERROR_MESSAGES.REQUIRED;
   }
 
-  if (data.inquiryType === 'other') {
+  if (data.inquiryType === 'その他') {
     if (!data.inquiryContent?.trim()) {
       errors.inquiryContent = ERROR_MESSAGES.INQUIRY_CONTENT_REQUIRED;
     }
@@ -101,14 +101,23 @@ function validateForm(data: FormData): FormErrors {
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
+  const getTrimmedValue = (key: string) => {
+    const value = formData.get(key);
+    return typeof value === 'string' ? value.trim() : '';
+  };
 
-  const data = Object.fromEntries(formData) as unknown as FormData;
-
-  Object.keys(data).forEach((key) => {
-    if (typeof data[key] === 'string') {
-      data[key] = data[key].trim();
-    }
-  });
+  const data: FormData = {
+    formKind: 'propertyInquiry',
+    inquiryType: getTrimmedValue('inquiryType'),
+    inquiryContent: getTrimmedValue('inquiryContent'),
+    name: getTrimmedValue('name'),
+    phone: getTrimmedValue('phone'),
+    email: getTrimmedValue('email'),
+    message: getTrimmedValue('message'),
+    propertyTitle: getTrimmedValue('propertyTitle'),
+    propertyId: getTrimmedValue('propertyId'),
+    assignedAgent: getTrimmedValue('assignedAgent'),
+  };
 
   const errors = validateForm(data);
 
@@ -116,6 +125,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json(
       {
         success: false,
+        formKind: 'propertyInquiry',
         errors,
         data,
       },
@@ -134,6 +144,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json(
       {
         success: true,
+        formKind: 'propertyInquiry',
         message: 'お問い合わせを受け付けました。確認メールをお送りしましたのでご確認ください。',
         errors: null,
       },
@@ -152,6 +163,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json(
       {
         success: false,
+        formKind: 'propertyInquiry',
         errors: {
           _form: ERROR_MESSAGES.SYSTEM_ERROR,
         },
