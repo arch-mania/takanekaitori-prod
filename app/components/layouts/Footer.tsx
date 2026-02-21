@@ -38,6 +38,37 @@ export function Footer({ currentAreaSlug }: FooterProps) {
       </div>
       <div className="mx-auto flex max-w-[950px] flex-col items-center justify-between space-y-4 md:flex-row md:items-end md:space-y-0">
         <div className="flex w-full flex-col gap-x-5 gap-y-4 md:flex-row">
+          <div className="flex flex-col gap-y-4 bg-[rgba(255,255,255,0.1)] px-3 py-4 md:max-w-[290px]">
+            <div className="border-b border-[rbga(255,255,255,0.5)]">
+              <img
+                src="/footer_title02.png"
+                width="187"
+                height="24"
+                alt="店舗高値買取センター"
+                className="mx-auto h-10 w-auto pb-4"
+              />
+            </div>
+            <div>
+              <div className="flex gap-x-2">
+                <img src="/footer_shop-icon.svg" alt="" width="25" height="25" />
+                <span className="text-base font-bold text-white">撤退支援サービス</span>
+              </div>
+              <p className="mt-2 text-xs text-white">
+                居抜きで飲食店をそのまま引き継ぎます。弊社が直接引き継ぐため、スピーディーに撤退が可能です。
+                <br />
+                賃貸物件も可能で、撤退を考えていることが従業員にも気付かれる心配はありません。
+              </p>
+            </div>
+            <Button
+              to="https://t-kaitori.com/restaurantexit/"
+              target="_blank"
+              className="w-full bg-white text-primary"
+              variant="secondary"
+              size="sm"
+            >
+              撤退をご検討中の方はこちら
+            </Button>
+          </div>
           <div className="flex w-full flex-col gap-y-4 bg-[rgba(255,255,255,0.1)] px-3 py-4 md:max-w-[290px]">
             <div className="border-b border-[rbga(255,255,255,0.5)]">
               <img
@@ -68,37 +99,6 @@ export function Footer({ currentAreaSlug }: FooterProps) {
               size="sm"
             >
               出店をご検討中の方はこちら
-            </Button>
-          </div>
-          <div className="flex flex-col gap-y-4 bg-[rgba(255,255,255,0.1)] px-3 py-4 md:max-w-[290px]">
-            <div className="border-b border-[rbga(255,255,255,0.5)]">
-              <img
-                src="/footer_title02.png"
-                width="187"
-                height="24"
-                alt="店舗高値買取センター"
-                className="mx-auto h-10 w-auto pb-4"
-              />
-            </div>
-            <div>
-              <div className="flex gap-x-2">
-                <img src="/footer_shop-icon.svg" alt="" width="25" height="25" />
-                <span className="text-base font-bold text-white">撤退支援サービス</span>
-              </div>
-              <p className="mt-2 text-xs text-white">
-                居抜きで飲食店をそのまま引き継ぎます。弊社が直接引き継ぐため、スピーディーに撤退が可能です。
-                <br />
-                賃貸物件も可能で、撤退を考えていることが従業員にも気付かれる心配はありません。
-              </p>
-            </div>
-            <Button
-              to="https://t-kaitori.com/restaurantexit/"
-              target="_blank"
-              className="w-full bg-white text-primary"
-              variant="secondary"
-              size="sm"
-            >
-              撤退をご検討中の方はこちら
             </Button>
           </div>
         </div>

@@ -99,6 +99,19 @@ const ContactForm = ({
               その他
             </label>
           </div>
+          <div className="flex items-center space-x-2">
+            <Input
+              type="radio"
+              id="listing-request"
+              name="inquiryType"
+              value="掲載希望"
+              className="size-4"
+              onChange={() => setShowOtherInput(false)}
+            />
+            <label htmlFor="listing-request" className="text-sm">
+              掲載希望
+            </label>
+          </div>
           {scopedActionData?.errors?.inquiryType && (
             <p className="text-sm text-red-500">{scopedActionData.errors.inquiryType}</p>
           )}
