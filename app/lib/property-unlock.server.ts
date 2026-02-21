@@ -3,6 +3,7 @@ import { createCookie } from '@remix-run/node';
 const PROPERTY_UNLOCK_COOKIE_NAME = 'property_unlocks';
 const PROPERTY_UNLOCK_MAX_AGE = 60 * 60 * 24 * 365; // 365日
 const FALLBACK_COOKIE_SECRET = 'property-unlock-secret';
+const GLOBAL_UNLOCK_TOKEN = '*';
 
 const propertyUnlockCookie = createCookie(PROPERTY_UNLOCK_COOKIE_NAME, {
   httpOnly: true,
@@ -32,17 +33,15 @@ export const getUnlockedPropertyIds = async (cookieHeader: string | null): Promi
 
 export const isPropertyUnlocked = async (
   cookieHeader: string | null,
-  propertyId: string
+  _propertyId: string
 ): Promise<boolean> => {
   const unlockedIds = await getUnlockedPropertyIds(cookieHeader);
-  return unlockedIds.includes(propertyId);
+  return unlockedIds.length > 0;
 };
 
 export const createPropertyUnlockCookie = async (
-  cookieHeader: string | null,
-  propertyId: string
+  _cookieHeader: string | null,
+  _propertyId: string
 ): Promise<string> => {
-  const unlockedIds = await getUnlockedPropertyIds(cookieHeader);
-  const nextIds = [...new Set([...unlockedIds, propertyId])];
-  return propertyUnlockCookie.serialize(nextIds);
+  return propertyUnlockCookie.serialize([GLOBAL_UNLOCK_TOKEN]);
 };
