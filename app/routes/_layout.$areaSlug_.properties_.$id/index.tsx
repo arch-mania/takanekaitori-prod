@@ -197,7 +197,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       });
 
       const headers: HeadersInit = {
-        'Cache-Control': 'no-cache',
+        'Cache-Control': 'no-store',
       };
 
       if (params.id) {
@@ -233,7 +233,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       {
         status: 200,
         headers: {
-          'Cache-Control': 'no-cache',
+          'Cache-Control': 'no-store',
         },
       }
     );
@@ -255,7 +255,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   guardAgainstBadBots(request);
-  const cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=300';
+  const cacheControl = 'private, no-store';
 
   try {
     const entryId = params.id as string;
@@ -381,6 +381,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     return json(property, {
       headers: {
         'Cache-Control': cacheControl,
+        Vary: 'Cookie',
       },
     });
   } catch (error) {
@@ -492,7 +493,7 @@ export default function PropertyDetail() {
           >
             <Button
               type="button"
-              className="w-full max-w-[300px] gap-x-2 bg-[#445A9C] hover:bg-[#3B4F8C]"
+              className="w-full max-w-[300px] gap-x-2 whitespace-normal bg-[#445A9C] hover:bg-[#3B4F8C]"
               size="sm"
               onClick={handleOpenUnlockModal}
             >
