@@ -23,6 +23,7 @@ export const saveContactForm = async (data: FormData) => {
     ? `新規のお問い合わせがありました。
 
 ────────────────────
+物件ID: ${data.propertyId ? `${data.propertyId}` : 'お問い合わせ'}
 担当者: ${data.assignedAgent ? `${data.assignedAgent}` : '-'}
 物件タイトル： ${data.propertyTitle ? `${data.propertyTitle}` : `物件指定なし`}
 お名前: ${data.name}
