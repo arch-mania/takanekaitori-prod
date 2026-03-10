@@ -5,6 +5,7 @@ import { contentfulClient } from '~/lib/contentful.server';
 import { guardAgainstBadBots } from '~/lib/bot-guard.server';
 import { Header } from '~/components/layouts/Header';
 import { Footer } from '~/components/layouts/Footer';
+import { FloatingContactPopup } from '~/components/parts/FloatingContactPopup';
 import { useState, useEffect } from 'react';
 import { ErrorPage } from '~/components/parts/ErrorPage';
 
@@ -138,6 +139,7 @@ export default function Layout() {
         >
           <Outlet context={{ selectedArea: currentArea.id }} />
         </main>
+        <FloatingContactPopup />
         <Footer currentAreaSlug={currentArea.slug} />
       </div>
     </div>
