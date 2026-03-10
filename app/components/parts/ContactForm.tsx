@@ -12,6 +12,7 @@ interface ContactFormProps {
   assignedAgent?: string;
   isPhoneRequired?: boolean;
   formKind?: FormKind;
+  defaultInquiryType?: string;
 }
 
 const ContactForm = ({
@@ -20,6 +21,7 @@ const ContactForm = ({
   assignedAgent,
   isPhoneRequired = false,
   formKind = 'propertyInquiry',
+  defaultInquiryType,
 }: ContactFormProps) => {
   const actionData = useActionData<ActionData>();
   const navigation = useNavigation();
@@ -80,6 +82,7 @@ const ContactForm = ({
               name="inquiryType"
               value="内見希望"
               className="size-4"
+              defaultChecked={defaultInquiryType === '内見希望'}
               onChange={() => setShowOtherInput(false)}
             />
             <label htmlFor="inquiry" className="text-sm">
@@ -93,6 +96,7 @@ const ContactForm = ({
               name="inquiryType"
               value="その他"
               className="size-4"
+              defaultChecked={defaultInquiryType === 'その他'}
               onChange={() => setShowOtherInput(true)}
             />
             <label htmlFor="other" className="text-sm">
@@ -106,6 +110,7 @@ const ContactForm = ({
               name="inquiryType"
               value="掲載希望"
               className="size-4"
+              defaultChecked={defaultInquiryType === '掲載希望'}
               onChange={() => setShowOtherInput(false)}
             />
             <label htmlFor="listing-request" className="text-sm">

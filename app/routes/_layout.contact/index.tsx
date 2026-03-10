@@ -1,4 +1,5 @@
 import { json, type MetaFunction, type ActionFunction } from '@remix-run/node';
+import { useSearchParams } from '@remix-run/react';
 import { saveContactForm } from '~/services/contact.server';
 import ContentsLayout from '~/components/layouts/ContentsLayout';
 import ContactForm from '~/components/parts/ContactForm';
@@ -181,10 +182,13 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Contact() {
+  const [searchParams] = useSearchParams();
+  const defaultInquiryType = searchParams.get('type') || undefined;
+
   return (
     <ContentsLayout className="mx-auto max-w-[950px] space-y-8 py-14 md:space-y-10 md:py-[72px]">
       <h1 className="text-2xl font-bold md:text-[32px]">お問い合わせ</h1>
-      <ContactForm isPhoneRequired={true} />
+      <ContactForm isPhoneRequired={true} defaultInquiryType={defaultInquiryType} />
     </ContentsLayout>
   );
 }

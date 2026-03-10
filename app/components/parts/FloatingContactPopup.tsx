@@ -40,7 +40,7 @@ export function FloatingContactPopup() {
         </button>
 
         <Link
-          to="/contact"
+          to="/contact?type=掲載希望"
           aria-label="今すぐ申し込む 無料"
           className="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#445A9C]"
         >
