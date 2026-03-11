@@ -28,7 +28,7 @@ export function FloatingContactPopup() {
   }
 
   return (
-    <div className="pointer-events-none fixed bottom-6 right-5 z-40 md:right-8">
+    <div className="pointer-events-none fixed bottom-2 right-5 z-40 md:right-8">
       <div className="pointer-events-auto relative">
         <button
           type="button"
