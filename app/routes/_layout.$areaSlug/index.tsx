@@ -33,7 +33,7 @@ interface LoaderData {
 export const loader: LoaderFunction = async ({ params, request }) => {
   guardAgainstBadBots(request);
   const { areaSlug } = params;
-  const cacheControl = 'public, max-age=0, s-maxage=60, stale-while-revalidate=300';
+  const cacheControl = 'public, max-age=0, s-maxage=600, stale-while-revalidate=3600';
 
   try {
     const expiredDays = 3650;
@@ -86,7 +86,6 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       featuredPropertiesEntries,
       propertyEntries,
       cuisineTypeEntries,
-      totalCountResponse,
       isNewCountResponse,
       recentRegistrationCountResponse,
     ] = await Promise.all([
@@ -113,14 +112,6 @@ export const loader: LoaderFunction = async ({ params, request }) => {
         content_type: 'cuisineType',
         order: ['fields.order'],
       }),
-      // 総物件数（totalプロパティ使用）
-      contentfulClient.getEntries({
-        content_type: 'property',
-        'fields.regions.sys.id[in]': regionIds.join(','),
-        'fields.registrationDate[gte]': thresholdDate,
-        select: ['sys.id'],
-        limit: 1,
-      }),
       // 新着物件数1: isNew=true
       contentfulClient.getEntries({
         content_type: 'property',
@@ -141,7 +132,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       }),
     ]);
 
-    const totalCount = totalCountResponse.total;
+    const totalCount = propertyEntries.total;
     const newCount = isNewCountResponse.total + recentRegistrationCountResponse.total;
 
     const mapPropertyData = (item: any) => {

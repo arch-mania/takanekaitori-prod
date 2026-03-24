@@ -1,25 +1,24 @@
 import { createClient } from 'contentful';
 import { LRUCache } from 'lru-cache';
 
-// マスターデータ用キャッシュ（10分TTL）
+const CACHE_TTL_MS = 1000 * 60 * 10; // 10分
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const masterCache = new LRUCache<string, any>({
   max: 500,
-  ttl: 1000 * 60 * 10,
+  ttl: CACHE_TTL_MS,
 });
 
-// 物件データ用キャッシュ（1分TTL）
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const propertyCache = new LRUCache<string, any>({
   max: 200,
-  ttl: 1000 * 60 * 1,
+  ttl: CACHE_TTL_MS,
 });
 
-// 単一エントリー用キャッシュ（10分TTL）
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const entryCache = new LRUCache<string, any>({
   max: 1000,
-  ttl: 1000 * 60 * 10,
+  ttl: CACHE_TTL_MS,
 });
 
 // マスターデータのcontent_type

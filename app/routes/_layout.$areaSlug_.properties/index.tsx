@@ -18,7 +18,7 @@ import { filterProperties, isNewProperty, NEW_PROPERTY_THRESHOLD } from '~/utils
 import { FilterState } from 'types/contentful';
 
 const ITEMS_PER_PAGE = 10;
-const CACHE_CONTROL = 'public, max-age=0, s-maxage=60, stale-while-revalidate=300';
+const CACHE_CONTROL = 'public, max-age=0, s-maxage=300, stale-while-revalidate=3600';
 const SORT_OPTIONS = [
   { value: 'newest', label: '新着順' },
   { value: 'rentAsc', label: '賃料安い順' },
