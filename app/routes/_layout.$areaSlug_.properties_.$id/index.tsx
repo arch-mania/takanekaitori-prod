@@ -1,7 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, type FormEvent } from 'react';
 import type { ActionFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { Form, useActionData, useLoaderData, useNavigation } from '@remix-run/react';
+import {
+  Form,
+  useActionData,
+  useLoaderData,
+  useNavigation,
+  useRouteLoaderData,
+  useSubmit,
+} from '@remix-run/react';
 import ContentsLayout from '~/components/layouts/ContentsLayout';
 import ContactForm from '~/components/parts/ContactForm';
 import { ErrorPage } from '~/components/parts/ErrorPage';
@@ -14,6 +21,12 @@ import { Table, TableBody, TableCell, TableRow } from '~/components/ui/table';
 import { guardAgainstBadBots } from '~/lib/bot-guard.server';
 import { contentfulClient } from '~/lib/contentful.server';
 import { createPropertyUnlockCookie, isPropertyUnlocked } from '~/lib/property-unlock.server';
+import { getRecaptchaToken, loadRecaptchaScript } from '~/lib/recaptcha.client';
+import {
+  getClientIp,
+  RECAPTCHA_ERROR_MESSAGE,
+  verifyRecaptcha,
+} from '~/lib/recaptcha.server';
 import { saveContactForm } from '~/services/contact.server';
 import type {
   ActionData,
@@ -32,6 +45,15 @@ const DESIRED_OPENING_PERIODS: Record<DesiredOpeningPeriod, string> = {
 const LOCK_START_LABEL = '礼金/権利金';
 
 const UNLOCK_INQUIRY_TYPE = '物件詳細情報の閲覧申請';
+const UNLOCK_RECAPTCHA_ACTION = 'unlock_details';
+const RECAPTCHA_CLIENT_ERROR_MESSAGE =
+  'reCAPTCHA の確認に失敗しました。時間をおいて再度お試しください。';
+
+type RootLoaderData = {
+  ENV?: {
+    RECAPTCHA_SITE_KEY?: string;
+  };
+};
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -184,6 +206,27 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   if (Object.keys(errors).length > 0) {
     return json({ success: false, formKind, errors }, { status: 400 });
+  }
+
+  const expectedRecaptchaAction =
+    formKind === 'unlockDetails' ? 'unlock_details' : 'property_inquiry';
+  const isRecaptchaValid = await verifyRecaptcha({
+    token: trimString(formData.get('g-recaptcha-response')),
+    expectedAction: expectedRecaptchaAction,
+    remoteIp: getClientIp(request),
+  });
+
+  if (!isRecaptchaValid) {
+    return json(
+      {
+        success: false,
+        formKind,
+        errors: {
+          recaptcha: RECAPTCHA_ERROR_MESSAGE,
+        },
+      },
+      { status: 400 }
+    );
   }
 
   try {
@@ -394,8 +437,12 @@ export default function PropertyDetail() {
   const property = useLoaderData<typeof loader>();
   const actionData = useActionData<ActionData>();
   const navigation = useNavigation();
+  const submit = useSubmit();
+  const rootData = useRouteLoaderData<RootLoaderData>('root');
+  const recaptchaSiteKey = rootData?.ENV?.RECAPTCHA_SITE_KEY || '';
   const [showContactForm, setShowContactForm] = useState(false);
   const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false);
+  const [unlockRecaptchaError, setUnlockRecaptchaError] = useState('');
   const contactFormRef = useRef<HTMLDivElement>(null);
 
   const unlockActionData = actionData?.formKind === 'unlockDetails' ? actionData : null;
@@ -411,6 +458,14 @@ export default function PropertyDetail() {
   const lockedSectionTopPercent =
     lockStartIndex <= 0 ? 0 : (lockStartIndex / property.details.length) * 100;
 
+  useEffect(() => {
+    if (recaptchaSiteKey) {
+      loadRecaptchaScript(recaptchaSiteKey).catch((error) => {
+        console.error('Failed to load reCAPTCHA:', error);
+      });
+    }
+  }, [recaptchaSiteKey]);
+
   const handleContactClick = () => {
     setShowContactForm(true);
     setTimeout(() => {
@@ -420,6 +475,36 @@ export default function PropertyDetail() {
 
   const handleOpenUnlockModal = () => {
     setIsUnlockModalOpen(true);
+  };
+
+  const handleUnlockSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isUnlockSubmitting) {
+      return;
+    }
+
+    const form = event.currentTarget;
+
+    try {
+      setUnlockRecaptchaError('');
+      const token = await getRecaptchaToken(recaptchaSiteKey, UNLOCK_RECAPTCHA_ACTION);
+      const tokenInput = form.querySelector<HTMLInputElement>('input[name="g-recaptcha-response"]');
+      const actionInput = form.querySelector<HTMLInputElement>('input[name="recaptchaAction"]');
+
+      if (tokenInput) {
+        tokenInput.value = token;
+      }
+
+      if (actionInput) {
+        actionInput.value = UNLOCK_RECAPTCHA_ACTION;
+      }
+
+      submit(form, { method: 'post' });
+    } catch (error) {
+      console.error('reCAPTCHA token generation failed:', error);
+      setUnlockRecaptchaError(RECAPTCHA_CLIENT_ERROR_MESSAGE);
+    }
   };
 
   return (
@@ -509,11 +594,13 @@ export default function PropertyDetail() {
               <DialogHeader>
                 <DialogTitle>無料でメール登録して物件を見る</DialogTitle>
               </DialogHeader>
-              <Form method="post" className="mt-6 space-y-4">
+              <Form method="post" className="mt-6 space-y-4" onSubmit={handleUnlockSubmit}>
                 <input type="hidden" name="formKind" value="unlockDetails" />
                 <input type="hidden" name="propertyTitle" value={property.title} />
                 <input type="hidden" name="propertyId" value={property.propertyId || ''} />
                 <input type="hidden" name="assignedAgent" value={property.assignedAgent || ''} />
+                <input type="hidden" name="g-recaptcha-response" defaultValue="" />
+                <input type="hidden" name="recaptchaAction" value={UNLOCK_RECAPTCHA_ACTION} />
 
                 <div className="space-y-2">
                   <Label className="text-sm font-medium">
@@ -587,6 +674,32 @@ export default function PropertyDetail() {
                 {unlockErrors?._form && (
                   <p className="text-sm text-red-500">{unlockErrors._form}</p>
                 )}
+                {(unlockRecaptchaError || unlockErrors?.recaptcha) && (
+                  <p className="text-sm text-red-500">
+                    {unlockRecaptchaError || unlockErrors?.recaptcha}
+                  </p>
+                )}
+                <p className="text-xs leading-[150%] text-gray-500">
+                  このサイトは reCAPTCHA によって保護されており、Google の
+                  <a
+                    href="https://policies.google.com/privacy"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline"
+                  >
+                    プライバシーポリシー
+                  </a>
+                  と
+                  <a
+                    href="https://policies.google.com/terms"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline"
+                  >
+                    利用規約
+                  </a>
+                  が適用されます。
+                </p>
 
                 <div className="mt-2 flex justify-center">
                   <Button

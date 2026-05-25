@@ -1,5 +1,5 @@
-import { Links, Meta, Outlet, redirect, Scripts, ScrollRestoration } from '@remix-run/react';
-import type { LinksFunction } from '@remix-run/node';
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
+import { json, type LinksFunction } from '@remix-run/node';
 
 import tailwind from '~/tailwind.css?url';
 
@@ -16,6 +16,14 @@ export const links: LinksFunction = () => [
     href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Lato:wght@400;700&display=swap',
   },
 ];
+
+export const loader = () => {
+  return json({
+    ENV: {
+      RECAPTCHA_SITE_KEY: process.env.RECAPTCHA_SITE_KEY || '',
+    },
+  });
+};
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
