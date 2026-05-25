@@ -1,10 +1,29 @@
-import { Form, Link, useActionData, useNavigation } from '@remix-run/react';
+import {
+  Form,
+  Link,
+  useActionData,
+  useNavigation,
+  useRouteLoaderData,
+  useSubmit,
+} from '@remix-run/react';
 import { Button } from '~/components/ui/button';
 import { Label } from '~/components/ui/label';
 import { Input } from '~/components/ui/input';
 import { Textarea } from '~/components/ui/textarea';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type FormEvent } from 'react';
+import { getRecaptchaToken, loadRecaptchaScript } from '~/lib/recaptcha.client';
 import type { ActionData, FormKind } from '~/types/contact';
+
+const RECAPTCHA_ACTIONS: Record<FormKind, string> = {
+  propertyInquiry: 'property_inquiry',
+  unlockDetails: 'unlock_details',
+};
+
+type RootLoaderData = {
+  ENV?: {
+    RECAPTCHA_SITE_KEY?: string;
+  };
+};
 
 interface ContactFormProps {
   propertyId?: string;
@@ -25,11 +44,23 @@ const ContactForm = ({
 }: ContactFormProps) => {
   const actionData = useActionData<ActionData>();
   const navigation = useNavigation();
+  const submit = useSubmit();
+  const rootData = useRouteLoaderData<RootLoaderData>('root');
+  const recaptchaSiteKey = rootData?.ENV?.RECAPTCHA_SITE_KEY || '';
   const [showOtherInput, setShowOtherInput] = useState(false);
+  const [recaptchaError, setRecaptchaError] = useState('');
   const isSubmitting = navigation.state === 'submitting';
   const [showSuccess, setShowSuccess] = useState(false);
   const scopedActionData =
     actionData && (!actionData.formKind || actionData.formKind === formKind) ? actionData : null;
+
+  useEffect(() => {
+    if (recaptchaSiteKey) {
+      loadRecaptchaScript(recaptchaSiteKey).catch((error) => {
+        console.error('Failed to load reCAPTCHA:', error);
+      });
+    }
+  }, [recaptchaSiteKey]);
 
   useEffect(() => {
     if (scopedActionData?.success) {
@@ -44,6 +75,37 @@ const ContactForm = ({
       };
     }
   }, [scopedActionData]);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isSubmitting) {
+      return;
+    }
+
+    const form = event.currentTarget;
+    const recaptchaAction = RECAPTCHA_ACTIONS[formKind];
+
+    try {
+      setRecaptchaError('');
+      const token = await getRecaptchaToken(recaptchaSiteKey, recaptchaAction);
+      const tokenInput = form.querySelector<HTMLInputElement>('input[name="g-recaptcha-response"]');
+      const actionInput = form.querySelector<HTMLInputElement>('input[name="recaptchaAction"]');
+
+      if (tokenInput) {
+        tokenInput.value = token;
+      }
+
+      if (actionInput) {
+        actionInput.value = recaptchaAction;
+      }
+
+      submit(form, { method: 'post' });
+    } catch (error) {
+      console.error('reCAPTCHA token generation failed:', error);
+      setRecaptchaError('reCAPTCHA の確認に失敗しました。時間をおいて再度お試しください。');
+    }
+  };
 
   return (
     <>
@@ -63,11 +125,13 @@ const ContactForm = ({
         </p>
       </div>
 
-      <Form method="post" className="space-y-6">
+      <Form method="post" className="space-y-6" onSubmit={handleSubmit}>
         <input type="hidden" name="formKind" value={formKind} />
         <input type="hidden" name="propertyTitle" value={propertyTitle || ''} />
         <input type="hidden" name="propertyId" value={propertyId || ''} />
         <input type="hidden" name="assignedAgent" value={assignedAgent || ''} />
+        <input type="hidden" name="g-recaptcha-response" defaultValue="" />
+        <input type="hidden" name="recaptchaAction" value={RECAPTCHA_ACTIONS[formKind]} />
         <div className="space-y-2">
           <Label className="block text-sm font-medium">
             お問い合わせ内容{' '}
@@ -218,6 +282,32 @@ const ContactForm = ({
             {scopedActionData.errors._form}
           </div>
         )}
+        {(recaptchaError || scopedActionData?.errors?.recaptcha) && (
+          <div className="mb-4 rounded bg-red-100 p-4 text-red-700">
+            {recaptchaError || scopedActionData?.errors?.recaptcha}
+          </div>
+        )}
+        <p className="text-xs leading-[150%] text-gray-500">
+          このサイトは reCAPTCHA によって保護されており、Google の
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            プライバシーポリシー
+          </a>
+          と
+          <a
+            href="https://policies.google.com/terms"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
+            利用規約
+          </a>
+          が適用されます。
+        </p>
         <Button
           type="submit"
           className="mx-auto !mt-14 flex w-full max-w-[240px] self-center"

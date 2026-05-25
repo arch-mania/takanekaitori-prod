@@ -10,6 +10,7 @@ export type ActionErrors = {
   phone?: string;
   message?: string;
   desiredOpeningPeriod?: string;
+  recaptcha?: string;
   _form?: string;
 };
 

@@ -3,6 +3,11 @@ import { useSearchParams } from '@remix-run/react';
 import { saveContactForm } from '~/services/contact.server';
 import ContentsLayout from '~/components/layouts/ContentsLayout';
 import ContactForm from '~/components/parts/ContactForm';
+import {
+  getClientIp,
+  RECAPTCHA_ERROR_MESSAGE,
+  verifyRecaptcha,
+} from '~/lib/recaptcha.server';
 import type { FormData } from '~/types/contact';
 
 const ERROR_MESSAGES = {
@@ -10,6 +15,7 @@ const ERROR_MESSAGES = {
   INVALID_EMAIL: '正しいメールアドレス形式で入力してください',
   SYSTEM_ERROR: 'システムエラーが発生しました。時間をおいて再度お試しください。',
   INQUIRY_CONTENT_REQUIRED: 'その他を選択した場合は、具体的な内容の入力が必須です',
+  RECAPTCHA_FAILED: RECAPTCHA_ERROR_MESSAGE,
 } as const;
 
 interface FormErrors {
@@ -19,6 +25,7 @@ interface FormErrors {
   phone?: string;
   email?: string;
   message?: string;
+  recaptcha?: string;
   _form?: string;
 }
 
@@ -128,6 +135,31 @@ export const action: ActionFunction = async ({ request }) => {
         success: false,
         formKind: 'propertyInquiry',
         errors,
+        data,
+      },
+      {
+        status: 400,
+        headers: {
+          'Cache-Control': 'no-store',
+        },
+      }
+    );
+  }
+
+  const isRecaptchaValid = await verifyRecaptcha({
+    token: getTrimmedValue('g-recaptcha-response'),
+    expectedAction: 'property_inquiry',
+    remoteIp: getClientIp(request),
+  });
+
+  if (!isRecaptchaValid) {
+    return json(
+      {
+        success: false,
+        formKind: 'propertyInquiry',
+        errors: {
+          recaptcha: ERROR_MESSAGES.RECAPTCHA_FAILED,
+        },
         data,
       },
       {
