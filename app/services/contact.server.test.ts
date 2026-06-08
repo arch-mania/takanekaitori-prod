@@ -9,7 +9,6 @@ vi.mock('~/lib/email.server', () => ({
 
 const baseData: FormData = {
   formKind: 'propertyInquiry',
-  source: 'contactPage',
   inquiryType: '内見希望',
   inquiryContent: '',
   name: '山田 太郎',
@@ -38,16 +37,15 @@ describe('saveContactForm', () => {
     );
   });
 
-  it('uses the mail registration admin subject for property detail inquiries', async () => {
+  it('uses the current admin subject for property detail inquiries', async () => {
     await saveContactForm({
       ...baseData,
-      source: 'propertyDetail',
     });
 
     expect(sendEmail).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
-        subject: '【居抜きビュッフェ】メール登録がありました',
+        subject: '【居抜きビュッフェ】テスト物件にお問い合わせがありました',
       })
     );
   });
@@ -56,7 +54,6 @@ describe('saveContactForm', () => {
     await saveContactForm({
       ...baseData,
       formKind: 'unlockDetails',
-      source: 'propertyDetail',
       inquiryType: '物件詳細情報の閲覧申請',
       inquiryContent: '',
       message: '1ヶ月以内（移転などの急ぎ）',

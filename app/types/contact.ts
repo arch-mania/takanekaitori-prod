@@ -1,5 +1,4 @@
 export type FormKind = 'propertyInquiry' | 'unlockDetails';
-export type ContactSource = 'contactPage' | 'propertyDetail';
 export type DesiredOpeningPeriod = 'A' | 'B' | 'C' | 'D';
 
 export type ActionErrors = {
@@ -17,7 +16,6 @@ export type ActionErrors = {
 
 export type FormData = {
   formKind?: FormKind;
-  source?: ContactSource;
   inquiryType: string;
   inquiryContent?: string;
   name: string;

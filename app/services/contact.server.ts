@@ -16,9 +16,9 @@ class EmailError extends Error {
 export const saveContactForm = async (data: FormData) => {
   const isUnlockDetails = data.formKind === 'unlockDetails';
   const adminMailSubject =
-    data.source === 'contactPage'
-      ? `【居抜きビュッフェ】${data.propertyTitle ? `${data.propertyTitle}に` : ''}お問い合わせがありました`
-      : '【居抜きビュッフェ】メール登録がありました';
+    isUnlockDetails
+      ? '【居抜きビュッフェ】メール登録がありました'
+      : `【居抜きビュッフェ】${data.propertyTitle ? `${data.propertyTitle}に` : ''}お問い合わせがありました`;
   const desiredOpeningPeriod = data.message
     ? data.message.replace(/^出店希望時期:\s*/, '')
     : '-';
