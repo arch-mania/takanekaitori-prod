@@ -15,6 +15,10 @@ class EmailError extends Error {
 
 export const saveContactForm = async (data: FormData) => {
   const isUnlockDetails = data.formKind === 'unlockDetails';
+  const adminMailSubject =
+    data.source === 'contactPage'
+      ? `【居抜きビュッフェ】${data.propertyTitle ? `${data.propertyTitle}に` : ''}お問い合わせがありました`
+      : '【居抜きビュッフェ】メール登録がありました';
   const desiredOpeningPeriod = data.message
     ? data.message.replace(/^出店希望時期:\s*/, '')
     : '-';
@@ -86,8 +90,8 @@ export const saveContactForm = async (data: FormData) => {
     // 管理者向けメールの送信
     try {
       await sendEmail({
-        to: process.env.ADMIN_EMAIL,
-        subject: `【居抜きビュッフェ】${data.propertyTitle ? `${data.propertyTitle}に` : ''}お問い合わせがありました`,
+        to: process.env.ADMIN_EMAIL ?? '',
+        subject: adminMailSubject,
         text: adminMailText,
       });
     } catch (error) {

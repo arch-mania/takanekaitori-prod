@@ -116,6 +116,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   const data: FormData = {
     formKind: 'propertyInquiry',
+    source: 'contactPage',
     inquiryType: getTrimmedValue('inquiryType'),
     inquiryContent: getTrimmedValue('inquiryContent'),
     name: getTrimmedValue('name'),

@@ -80,6 +80,7 @@ describe('/contact action', () => {
     expect(saveContactForm).toHaveBeenCalledWith(
       expect.objectContaining({
         formKind: 'propertyInquiry',
+        source: 'contactPage',
         email: 'test@example.com',
         message: '内見を希望します。',
       })

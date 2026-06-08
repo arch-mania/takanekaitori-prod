@@ -189,6 +189,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   const data: ContactFormData = {
     formKind,
+    source: 'propertyDetail',
     inquiryType: trimString(formData.get('inquiryType')),
     inquiryContent: trimString(formData.get('inquiryContent')),
     name: trimString(formData.get('name')),
