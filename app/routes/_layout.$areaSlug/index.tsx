@@ -293,7 +293,8 @@ export default function Index() {
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-y-2 py-4 lg:py-8">
-        <h1 className="text-center text-base font-bold text-primary lg:text-2xl">
+        <h1 className="sr-only">居抜きビュッフェ</h1>
+        <p className="text-center text-base font-bold text-primary lg:text-2xl">
           {areaSlug === 'kanto' ? (
             '関東の居抜き・飲食店店舗物件を検索'
           ) : (
@@ -303,7 +304,7 @@ export default function Index() {
               ぴったりの飲食店物件が簡単に見つかる！
             </>
           )}
-        </h1>
+        </p>
         <div className="flex items-center gap-x-4">
           <div className="flex items-center">
             <span className="text-xs font-normal text-foreground lg:text-sm">掲載物件数</span>
