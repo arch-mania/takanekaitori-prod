@@ -227,7 +227,19 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   }
 };
 
-export const meta: MetaFunction = () => {
+const KANTO_SEO_TITLE = '関東の居抜き店舗・飲食店物件を検索｜居抜きビュッフェ';
+const KANTO_DESCRIPTION =
+  '関東の居抜き・スケルトン店舗物件を3,000件以上掲載。エリア・業態・フリーワードから検索できます。飲食店の物件探しから内見相談、物件の掲載依頼まで対応する「居抜きビュッフェ」です。';
+
+export const meta: MetaFunction = ({ params }) => {
+  if (params.areaSlug === 'kanto') {
+    return [
+      { title: KANTO_SEO_TITLE },
+      { name: 'description', content: KANTO_DESCRIPTION },
+      { tagName: 'link', rel: 'canonical', href: 'https://app.t-kaitori.com/kanto' },
+    ];
+  }
+
   return [
     { title: '居抜きビュッフェ Presented by 店舗高値買取センター' },
     {
@@ -281,11 +293,17 @@ export default function Index() {
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-y-2 py-4 lg:py-8">
-        <p className="text-center text-base font-bold text-primary lg:text-2xl">
-          居抜きもスケルトンも！
-          <br />
-          ぴったりの飲食店物件が簡単に見つかる！
-        </p>
+        <h1 className="text-center text-base font-bold text-primary lg:text-2xl">
+          {areaSlug === 'kanto' ? (
+            '関東の居抜き・飲食店店舗物件を検索'
+          ) : (
+            <>
+              居抜きもスケルトンも！
+              <br />
+              ぴったりの飲食店物件が簡単に見つかる！
+            </>
+          )}
+        </h1>
         <div className="flex items-center gap-x-4">
           <div className="flex items-center">
             <span className="text-xs font-normal text-foreground lg:text-sm">掲載物件数</span>
